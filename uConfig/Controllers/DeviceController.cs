@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using uConfig.Model;
 using uConfig.Repository;
@@ -46,6 +47,54 @@ namespace uConfig.Controllers
                 // sending 409 conflict in case resource already exist
                 HttpContext.Response.StatusCode = 409;
             }
+        }
+
+        [HttpPut]
+        [Route("{deviceId}/config")]
+        public void CreateOrUpdateDeviceConfig(Guid deviceId, DeviceConfig deviceConfig)
+        {
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            _logger.LogInformation("Create/Update Device Config call from {email}", loggedInUser.Email);
+
+            Device device = _deviceRepository.GetDeviceById(deviceId);
+
+            if (device == null)
+            {
+                HttpContext.Response.StatusCode = 404;
+                return;
+            }
+
+            if (!device.OwnerEmail.Equals(loggedInUser.Email))
+            {
+                HttpContext.Response.StatusCode = 401;
+                return;
+            }
+
+            _deviceRepository.CreateOrUpdateDeviceConfig(deviceId, deviceConfig);
+        }
+
+        [HttpGet]
+        [Route("{deviceId}/config")]
+        public DeviceConfig GetDeviceConfig(Guid deviceId)
+        {
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            _logger.LogInformation("Get Device Config call from {email}", loggedInUser.Email);
+
+            Device device = _deviceRepository.GetDeviceById(deviceId);
+            DeviceConfig deviceConfig = _deviceRepository.GetDeviceConfig(deviceId);
+            if (deviceConfig == null || device == null)
+            {
+                HttpContext.Response.StatusCode = 404;
+                return null;
+            }
+
+            if (!device.OwnerEmail.Equals(loggedInUser.Email))
+            {
+                HttpContext.Response.StatusCode = 401;
+                return null;
+            }
+
+            return deviceConfig;
         }
 
         [HttpGet]

@@ -7,8 +7,8 @@ namespace uConfig.Model
 {
     public class DeviceConfigItemOverride
     {
-        public String WifiSsid { get; set; }
+        public string WifiSsid { get; set; }
 
-        public String Value { get; set; }
+        public string Value { get; set; }
     }
 }

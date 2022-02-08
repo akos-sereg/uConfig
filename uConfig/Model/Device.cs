@@ -8,12 +8,14 @@ namespace uConfig.Model
 {
     public class Device
     {
-        [Required]
-        public String Name { get; set; }
+        public Guid DeviceID { get; set; }
 
         [Required]
-        public String Platform { get; set; }
+        public string Name { get; set; }
 
-        public String OwnerEmail { get; set; }
+        [Required]
+        public string Platform { get; set; }
+
+        public string OwnerEmail { get; set; }
     }
 }
