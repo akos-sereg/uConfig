@@ -1,5 +1,8 @@
 ﻿function App() {
     this.backendService = new BackendService();
+
+    // ui
+    this.registeredDeviceList = new RegisteredDeviceList('#registered-device-list', '#registered-device-template');
 }
 
 App.prototype.getConfig = function () {
@@ -22,6 +25,8 @@ App.prototype.submitNewDevice = function () {
 }
 
 App.prototype.fetchDevices = function () {
-    this.backendService.getDevices(function (data) {
+    var self = this;
+    this.backendService.getDevices(function (devices) {
+        self.registeredDeviceList.refresh(devices);
     });
 }
