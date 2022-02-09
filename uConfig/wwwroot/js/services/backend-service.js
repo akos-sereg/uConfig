@@ -22,3 +22,16 @@ BackendService.prototype.registerDevice = function (device, onSuccess) {
         contentType: "application/json"
     });
 }
+
+BackendService.prototype.getDevices = function (onSuccess) {
+    $.ajax({
+        type: "GET",
+        url: document.app.getConfig().apiUrl + '/device',
+        success: function (data) {
+            console.log(data);
+            onSuccess(data);
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+}
