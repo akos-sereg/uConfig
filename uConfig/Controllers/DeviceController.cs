@@ -9,7 +9,7 @@ using uConfig.Services;
 namespace uConfig.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class DeviceController : ControllerBase
     {
         private readonly ILogger<DeviceController> _logger;
@@ -22,6 +22,8 @@ namespace uConfig.Controllers
             _deviceRepository = new InMemoryDeviceRepository();
             _authenticationService = new AuthenticationService();
         }
+
+        #region Device Management
 
         [HttpPost]
         public void RegisterDevice(Device device)
@@ -48,6 +50,19 @@ namespace uConfig.Controllers
                 HttpContext.Response.StatusCode = 409;
             }
         }
+
+        [HttpGet]
+        public List<Device> GetDevices()
+        {
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            _logger.LogInformation("Get Devices call from {email}", loggedInUser.Email);
+
+            return _deviceRepository.GetDevices(loggedInUser.Email);
+        }
+
+        #endregion Device Management
+
+        #region Device Config Management
 
         [HttpPut]
         [Route("{deviceId}/config")]
@@ -97,13 +112,7 @@ namespace uConfig.Controllers
             return deviceConfig;
         }
 
-        [HttpGet]
-        public List<Device> GetDevices()
-        {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
-            _logger.LogInformation("Get Devices call from {email}", loggedInUser.Email);
+        #endregion Device Config Management
 
-            return _deviceRepository.GetDevices(loggedInUser.Email);
-        }
     }
 }

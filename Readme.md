@@ -17,3 +17,4 @@ $ docker rm --force uconfig
 
 - Install swagger
 - End to end tests for Web API
+- Use MySQL storage
