@@ -96,3 +96,12 @@
 .border-bottom {
     border-bottom: 1px solid #e5e5e5;
 }
+
+.add_device_input {
+    width: 250px;
+}
+
+.add_device_table {
+    width: 500px;
+}
+

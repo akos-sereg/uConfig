@@ -4,7 +4,28 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Add new Device</h2>
+<table class="add_device_table" cellpadding="10">
+    <tbody>
+
+        <tr>
+            <td>Name</td>
+            <td>
+                <input id="add_device_name" type="text" class="form-control add_device_input" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" />
+            </td>
+        </tr>
+        <tr>
+            <td>Platform</td>
+            <td>
+                <input id="add_device_platform" type="text" class="form-control add_device_input" placeholder="Eg. ESP32, or Arduino" aria-label="Platform" aria-describedby="basic-addon1" />
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <button onclick="document.app.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
