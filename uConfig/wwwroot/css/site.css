@@ -106,5 +106,17 @@
 }
 
 .registered_device_list {
-    width: 500px;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.registered_device_container {
+    width: 100%;
+    float: left;
+}
+
+.registered_device_item {
+    margin-right: 30px;
+    margin-bottom: 30px;
+    float: left;
 }
