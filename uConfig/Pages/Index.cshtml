@@ -14,7 +14,7 @@
         </ol>
     </nav>
 
-    <a href="#" id="add_device_link" onclick="document.app.ui.addDeviceForm.toggle();">&gt; Add new device ...</a>
+    <a href="#" id="add_device_link" onclick="document.app.screens.devicesScreen.addDeviceForm.toggle();">&gt; Add new device ...</a>
     <div id="add_device_container">
         <h2>Add new Device</h2>
         <table class="add_device_table" cellpadding="10">
@@ -35,7 +35,7 @@
                 <tr>
                     <td>&nbsp;</td>
                     <td>
-                        <button onclick="document.app.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
+                        <button onclick="document.app.screens.devicesScreen.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
                     </td>
                 </tr>
 
@@ -54,12 +54,13 @@
 <div id="screen-configuration">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#" onclick="document.app.ui.screenHandler.showScreen('devices');">Devices</a></li>
+            <li class="breadcrumb-item"><a href="#" onclick="document.app.screens.screenHandler.showScreen('devices');">Devices</a></li>
             <li class="breadcrumb-item active" aria-current="page">Configuration</li>
         </ol>
     </nav>
 
     <h1>Configuration</h1>
+    Configuration of device <span id="config_device_name" /> (<span id="config_device_platform" />)
 </div>
 
 <!-- ------------------------------------------------------------------------------------------------ -->
@@ -71,7 +72,7 @@
         <div class="card-body">
             <h5 class="card-title" id="device-card-title">Card title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a id="configure_device_btn" onclick="document.app.ui.screenHandler.showScreen('configuration', '{deviceId}');" href="#" class="btn btn-primary">Configure</a>
+            <a id="configure_device_btn" onclick="document.app.screens.screenHandler.showScreen('configuration', '{deviceId}');" href="#" class="btn btn-primary">Configure</a>
         </div>
     </div>
 </template>
