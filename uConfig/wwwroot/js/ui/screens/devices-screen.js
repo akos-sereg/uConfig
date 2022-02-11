@@ -1,4 +1,5 @@
 ﻿function DevicesScreen() {
+    this.name = 'devices';
     this.registeredDeviceList = new RegisteredDeviceList('#registered-device-list', '#registered-device-template');
     this.addDeviceForm = new AddDeviceForm();
 }

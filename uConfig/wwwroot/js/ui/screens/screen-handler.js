@@ -1,6 +1,8 @@
 ﻿function ScreenHandler() {
-    // container div ids: 'screen-<screen-name>', eg. 'screen-devices' or 'screen-configuration'
-    this.screens = ['devices', 'configuration'];
+    this.screens = [
+        new DevicesScreen().name,
+        new ConfigurationScreen().name
+    ];
 
     this.context = '';
     this.contextObject = {};
