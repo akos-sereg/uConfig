@@ -21,6 +21,12 @@ RegisteredDeviceList.prototype.refresh = function (devices) {
 
         record.classList.add("registered_device_item");
         record.querySelector('#device-card-title').textContent = registeredDevice.name;
+        record.querySelector('#configure_device_btn').attributes.onclick.nodeValue =
+            record.querySelector('#configure_device_btn')
+                .attributes
+                .onclick
+                .nodeValue
+                .replace('{deviceId}', registeredDevice.deviceID);
         list.append(record);
 
         app.append(list);

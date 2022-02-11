@@ -1,9 +1,20 @@
 ﻿function App() {
-    this.backendService = new BackendService();
-    this.addDeviceForm = new AddDeviceForm();
+    // services
+    this.services = {
+        backendService: new BackendService()
+    }
 
     // ui
-    this.registeredDeviceList = new RegisteredDeviceList('#registered-device-list', '#registered-device-template');
+    this.ui = {
+        registeredDeviceList: new RegisteredDeviceList('#registered-device-list', '#registered-device-template'),
+        addDeviceForm: new AddDeviceForm(),
+        screenHandler: new ScreenHandler()
+    }
+    
+    // state
+    this.state = {
+        devices: []
+    };
 }
 
 App.prototype.getConfig = function () {
@@ -13,12 +24,12 @@ App.prototype.getConfig = function () {
 }
 
 App.prototype.submitNewDevice = function () {
-    var formData = this.addDeviceForm.getFormData();
+    var formData = this.ui.addDeviceForm.getFormData();
     var self = this;
 
-    this.backendService.registerDevice(formData, function () {
+    this.services.backendService.registerDevice(formData, function () {
         console.log('Device is now registered');
-        self.addDeviceForm.clear();
+        self.ui.addDeviceForm.clear();
 
         toastr["success"]("Device registered successfully");
         document.app.fetchDevices();
@@ -27,18 +38,22 @@ App.prototype.submitNewDevice = function () {
 
 App.prototype.fetchDevices = function () {
     var self = this;
-    this.backendService.getDevices(function (devices) {
-        self.registeredDeviceList.refresh(devices);
+    this.services.backendService.getDevices(function (devices) {
+        self.state.devices = devices;
+        self.ui.registeredDeviceList.refresh(devices);
     });
 }
 
 App.prototype.init = function () {
+    // default screen
+    this.ui.screenHandler.showScreen('devices');
+
     // empty-device-list indicator should be hidden by default
-    this.registeredDeviceList.hideNone();
+    this.ui.registeredDeviceList.hideNone();
 
     // make sure that device list is loaded upon page init
     this.fetchDevices();
 
     // hide add device form by default
-    this.addDeviceForm.hide();
+    this.ui.addDeviceForm.hide();
 }

@@ -4,43 +4,74 @@
     ViewData["Title"] = "Home page";
 }
 
-<a href="#" id="add_device_link" onclick="app.addDeviceForm.toggle();">&gt; Add new device ...</a>
-<div id="add_device_container">
-    <h2>Add new Device</h2>
-    <table class="add_device_table" cellpadding="10">
-        <tbody>
+<!-- ------------------------------------------------------------------------------------------------ -->
+<!-- Devices Screen -->
+<!-- ------------------------------------------------------------------------------------------------ -->
+<div id="screen-devices">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Devices</li>
+        </ol>
+    </nav>
 
-            <tr>
-                <td>Name</td>
-                <td>
-                    <input id="add_device_name" type="text" class="form-control add_device_input" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" />
-                </td>
-            </tr>
-            <tr>
-                <td>Platform</td>
-                <td>
-                    <input id="add_device_platform" type="text" class="form-control add_device_input" placeholder="Eg. ESP32, or Arduino" aria-label="Platform" aria-describedby="basic-addon1" />
-                </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                    <button onclick="document.app.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
-                </td>
-            </tr>
+    <a href="#" id="add_device_link" onclick="document.app.ui.addDeviceForm.toggle();">&gt; Add new device ...</a>
+    <div id="add_device_container">
+        <h2>Add new Device</h2>
+        <table class="add_device_table" cellpadding="10">
+            <tbody>
 
-        </tbody>
-    </table>
+                <tr>
+                    <td>Name</td>
+                    <td>
+                        <input id="add_device_name" type="text" class="form-control add_device_input" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Platform</td>
+                    <td>
+                        <input id="add_device_platform" type="text" class="form-control add_device_input" placeholder="Eg. ESP32, or Arduino" aria-label="Platform" aria-describedby="basic-addon1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <button onclick="document.app.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="registered-device-list" class="registered_device_list"></div>
+
 </div>
 
-<div id="registered-device-list" class="registered_device_list"></div>
+<!-- ------------------------------------------------------------------------------------------------ -->
+<!-- Configuration Screen -->
+<!-- ------------------------------------------------------------------------------------------------ -->
+
+<div id="screen-configuration">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#" onclick="document.app.ui.screenHandler.showScreen('devices');">Devices</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Configuration</li>
+        </ol>
+    </nav>
+
+    <h1>Configuration</h1>
+</div>
+
+<!-- ------------------------------------------------------------------------------------------------ -->
+<!-- Templates -->
+<!-- ------------------------------------------------------------------------------------------------ -->
 
 <template id="registered-device-template">
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title" id="device-card-title">Card title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Configure</a>
+            <a id="configure_device_btn" onclick="document.app.ui.screenHandler.showScreen('configuration', '{deviceId}');" href="#" class="btn btn-primary">Configure</a>
         </div>
     </div>
 </template>
