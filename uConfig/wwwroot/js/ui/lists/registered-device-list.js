@@ -11,7 +11,7 @@ RegisteredDeviceList.prototype.refresh = function (devices) {
 
     this.clear();
 
-    let app = document.querySelector(this.placeholderId); // '#registered-device-list', #registered-device-template
+    let app = document.querySelector(this.placeholderId);
     let listItem = document.querySelector(this.templateId);
     let list = document.createElement('div');
     list.classList.add("registered_device_container");
@@ -26,4 +26,13 @@ RegisteredDeviceList.prototype.refresh = function (devices) {
         app.append(list);
     }
 
+    devices.length > 0 ? this.hideNone() : this.showNone();
+}
+
+RegisteredDeviceList.prototype.showNone = function () {
+    $('#add_device_none_yet').show();
+}
+
+RegisteredDeviceList.prototype.hideNone = function () {
+    $('#add_device_none_yet').hide();
 }

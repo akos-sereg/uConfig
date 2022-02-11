@@ -1,4 +1,5 @@
 ﻿function AddDeviceForm() {
+    this.isDisplayed = false;
 }
 
 AddDeviceForm.prototype.getFormData = function () {
@@ -14,4 +15,24 @@ AddDeviceForm.prototype.getFormData = function () {
 AddDeviceForm.prototype.clear = function () {
     $('#add_device_name').val('');
     $('#add_device_platform').val('');
+}
+
+AddDeviceForm.prototype.show = function () {
+    $('#add_device_container').show();
+    this.isDisplayed = true;
+}
+
+AddDeviceForm.prototype.hide = function () {
+    $('#add_device_container').hide();
+    this.isDisplayed = false;
+}
+
+AddDeviceForm.prototype.toggle = function () {
+    if (this.isDisplayed) {
+        this.hide();
+        $('#add_device_link').html('&gt; Add new device ...');
+    } else {
+        this.show();
+        $('#add_device_link').html('&lt; Add new device ...');
+    }
 }

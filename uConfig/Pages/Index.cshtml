@@ -4,31 +4,34 @@
     ViewData["Title"] = "Home page";
 }
 
-<h2>Add new Device</h2>
-<table class="add_device_table" cellpadding="10">
-    <tbody>
+<a href="#" id="add_device_link" onclick="app.addDeviceForm.toggle();">&gt; Add new device ...</a>
+<div id="add_device_container">
+    <h2>Add new Device</h2>
+    <table class="add_device_table" cellpadding="10">
+        <tbody>
 
-        <tr>
-            <td>Name</td>
-            <td>
-                <input id="add_device_name" type="text" class="form-control add_device_input" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" />
-            </td>
-        </tr>
-        <tr>
-            <td>Platform</td>
-            <td>
-                <input id="add_device_platform" type="text" class="form-control add_device_input" placeholder="Eg. ESP32, or Arduino" aria-label="Platform" aria-describedby="basic-addon1" />
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>
-                <button onclick="document.app.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
-            </td>
-        </tr>
+            <tr>
+                <td>Name</td>
+                <td>
+                    <input id="add_device_name" type="text" class="form-control add_device_input" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" />
+                </td>
+            </tr>
+            <tr>
+                <td>Platform</td>
+                <td>
+                    <input id="add_device_platform" type="text" class="form-control add_device_input" placeholder="Eg. ESP32, or Arduino" aria-label="Platform" aria-describedby="basic-addon1" />
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button onclick="document.app.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
+                </td>
+            </tr>
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 <div id="registered-device-list" class="registered_device_list"></div>
 
@@ -41,3 +44,7 @@
         </div>
     </div>
 </template>
+
+<div id="add_device_none_yet" class="alert alert-secondary" role="alert">
+    There is no device added yet.
+</div>
