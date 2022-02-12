@@ -3,9 +3,6 @@
         new DevicesScreen().name,
         new ConfigurationScreen().name
     ];
-
-    this.context = '';
-    this.contextObject = {};
 }
 
 ScreenHandler.prototype.showScreen = function (screenName, context) {
@@ -22,7 +19,9 @@ ScreenHandler.prototype.showScreen = function (screenName, context) {
         case 'devices':
             break;
         case 'configuration':
-            this.contextObject = document.app.state.devices.find(function (device) { return device.deviceID == context });
+            document.app.screens.configurationScreen.context =
+                document.app.state.devices.find(function (device) { return device.deviceID == context });
+            document.app.screens.configurationScreen.load();
             break;
     }
 }

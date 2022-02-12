@@ -60,7 +60,28 @@
     </nav>
 
     <h1>Configuration</h1>
-    Configuration of device <span id="config_device_name" /> (<span id="config_device_platform" />)
+
+    <div id="tab_pages_configuration">
+        <div id="tab_pages_config_nav"></div>
+        <div id="tab_pages_config_details">
+
+            <input class="form-control" type="text" placeholder="Readonly input here…" readonly>
+        </div>
+        <div id="tab_pages_config_access">
+
+            <form>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Config URL</label>
+                    <div class="col-sm-10">
+                        <input value="http://uconfig.io/api/device/543793249/config" class="form-control" type="text" readonly>
+                        <small id="emailHelp" class="form-text text-muted">Your device can fetch configuration from this URL</small>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div id="tab_pages_config_params">c</div>
+    </div>
 </div>
 
 <!-- ------------------------------------------------------------------------------------------------ -->
@@ -75,6 +96,10 @@
             <a id="configure_device_btn" onclick="document.app.screens.screenHandler.showScreen('configuration', '{deviceId}');" href="#" class="btn btn-primary">Configure</a>
         </div>
     </div>
+</template>
+
+<template id="tab_item_template">
+    <span onclick="[tabComponent].switch('{tabId}');" data-tab-id="[tabId]" class="tab_item"></span>
 </template>
 
 <div id="add_device_none_yet" class="alert alert-secondary" role="alert">
