@@ -7,7 +7,6 @@
 DevicesScreen.prototype.init = function () {
     this.registeredDeviceList.hideNone();
     this.addDeviceForm.hide();
-    this.fetchDevices();
 }
 
 DevicesScreen.prototype.submitNewDevice = function () {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace uConfig.DTOs
 {
-    public class DeviceRegistrationRequest
+    public class LoginResponse
     {
     }
 }

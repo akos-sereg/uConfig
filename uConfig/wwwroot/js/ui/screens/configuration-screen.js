@@ -16,6 +16,14 @@
             {
                 pageId: '#tab_pages_config_params',
                 label: 'Params'
+            },
+            {
+                pageId: '#tab_pages_config_console',
+                label: 'Console'
+            },
+            {
+                pageId: '#tab_pages_config_activity',
+                label: 'Activity'
             }
         ]
     );

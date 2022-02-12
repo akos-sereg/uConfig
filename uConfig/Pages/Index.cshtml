@@ -65,7 +65,21 @@
         <div id="tab_pages_config_nav"></div>
         <div id="tab_pages_config_details">
 
-            <input class="form-control" type="text" placeholder="Readonly input here…" readonly>
+            <form>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Platform</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" aria-describedby="platformHelp" placeholder="Password">
+                    <small id="platformHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+
         </div>
         <div id="tab_pages_config_access">
 
@@ -73,14 +87,24 @@
                 <div class="form-group row">
                     <label for="staticEmail" class="col-sm-2 col-form-label">Config URL</label>
                     <div class="col-sm-10">
-                        <input value="http://uconfig.io/api/device/543793249/config" class="form-control" type="text" readonly>
+                        <input value="http://127.0.0.1:8080/api/device/28934523/config?apiKey=kjfhasljdf" class="form-control" type="text" readonly>
                         <small id="emailHelp" class="form-text text-muted">Your device can fetch configuration from this URL</small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">API Key</label>
+                    <div class="col-sm-10">
+                        <input value="9875917234589345" class="form-control" type="text" readonly>
+                        <small id="emailHelp" class="form-text text-muted">If you rotate the API key, your device will no longer be available to access with the old key.</small>
+                        <button class="btn btn-sm btn-danger">Rotate</button>
                     </div>
                 </div>
             </form>
 
         </div>
         <div id="tab_pages_config_params">c</div>
+        <div id="tab_pages_config_console">d</div>
+        <div id="tab_pages_config_activity">d</div>
     </div>
 </div>
 

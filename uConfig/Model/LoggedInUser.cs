@@ -10,5 +10,7 @@ namespace uConfig.Model
         public string Email { get; set; }
 
         public int UserID { get; set; }
+
+        public string Token { get; set; }
     }
 }

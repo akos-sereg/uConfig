@@ -24,9 +24,14 @@ App.prototype.getConfig = function () {
 }
 
 App.prototype.init = function () {
+    var self = this;
+
     // default screen
     this.screens.screenHandler.showScreen('devices');
 
-    // init device screen
     this.screens.devicesScreen.init();
+    this.services.backendService.login({ username: '', password: '' }, function () {
+        // user is now logged in, we can fetch devices now
+        self.screens.devicesScreen.fetchDevices();;
+    });
 }
