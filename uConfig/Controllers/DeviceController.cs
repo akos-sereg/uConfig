@@ -86,6 +86,7 @@ namespace uConfig.Controllers
             }
 
             _deviceRepository.CreateOrUpdateDeviceConfig(deviceId, deviceConfig);
+            HttpContext.Response.StatusCode = 204;
         }
 
         [HttpGet]

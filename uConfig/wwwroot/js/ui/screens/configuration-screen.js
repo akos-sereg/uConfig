@@ -2,6 +2,7 @@
     this.name = 'configuration';
     this.device = {};
     this.deviceConfig = { "Items": [] };
+    this.addConfigItemForm = new AddConfigItemForm();
     this.tabPages = new TabPages(
         '#tab_pages_configuration',
         '#tab_pages_config_nav',
@@ -56,8 +57,8 @@ ConfigurationScreen.prototype.renderKeyValueList = function () {
     let kvPairTemplate = document.querySelector('#config_key_value');
     this.deviceConfig.items.forEach(function (kvPair) {
         let kvPairItem = kvPairTemplate.content.cloneNode(true).querySelector('tr');
-        kvPairItem.querySelector('#config_kv_template_key').innerHTML = kvPair.Key;
-        kvPairItem.querySelector('#config_kv_template_value').innerHTML = kvPair.Value;
+        kvPairItem.querySelector('#config_kv_template_key').innerHTML = kvPair.key;
+        kvPairItem.querySelector('#config_kv_template_value').innerHTML = kvPair.value;
         paramsContainer.append(kvPairItem);
     });
 
