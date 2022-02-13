@@ -36,6 +36,7 @@ ConfigurationScreen.prototype.load = function () {
     this.tabPages.render();
 
     // details tab
+    $('#config_device_name_nav').html(this.device.name);
     $('#config_device_name').val(this.device.name);
     $('#config_device_platform').val(this.device.platform);
 
@@ -59,10 +60,35 @@ ConfigurationScreen.prototype.renderKeyValueList = function () {
         let kvPairItem = kvPairTemplate.content.cloneNode(true).querySelector('tr');
         kvPairItem.querySelector('#config_kv_template_key').innerHTML = kvPair.key;
         kvPairItem.querySelector('#config_kv_template_value').innerHTML = kvPair.value;
+        kvPairItem.querySelector('#config_kv_template_remove').attributes.onclick.nodeValue = 
+            kvPairItem.querySelector('#config_kv_template_remove').attributes.onclick.nodeValue.replace('{configKey}', kvPair.key);
         paramsContainer.append(kvPairItem);
     });
 
     let kvPairAddTemplate = document.querySelector('#config_key_value_add');
     let kvPairAdd = kvPairAddTemplate.content.cloneNode(true).querySelector('tr');
     paramsContainer.append(kvPairAdd);
+}
+
+ConfigurationScreen.prototype.deleteConfigItem = function (key) {
+    var newDeviceConfig = JSON.parse(JSON.stringify(this.deviceConfig));
+
+    newDeviceConfig.items = [];
+    this.deviceConfig.items.forEach(function (item) {
+        if (item.key != key) {
+            newDeviceConfig.items.push(item);
+        }
+    });
+
+    var self = this;
+    document.app.services.backendService.createOrUpdateDeviceConfig(
+        this.device.deviceID,
+        newDeviceConfig,
+        function () {
+            document.app.services.backendService.getDeviceConfig(self.device.deviceID, function (deviceConfig) {
+                self.deviceConfig = deviceConfig;
+                self.renderKeyValueList();
+            });
+        }
+    );
 }

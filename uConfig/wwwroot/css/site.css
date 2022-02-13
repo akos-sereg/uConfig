@@ -171,3 +171,7 @@
 #config_list_div_container {
     width: 650px;
 }
+
+#config_device_name_nav {
+    font-weight: bold;
+}

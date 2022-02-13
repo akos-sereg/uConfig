@@ -59,7 +59,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#" onclick="document.app.screens.screenHandler.showScreen('devices');">Devices</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Configuration</li>
+            <li class="breadcrumb-item active" aria-current="page">Configuration of <span id="config_device_name_nav"></span></li>
         </ol>
     </nav>
 
@@ -149,7 +149,9 @@
     <tr>
         <td id="config_kv_template_key"></td>
         <td id="config_kv_template_value"></td>
-        <td></td>
+        <td>
+            <a id="config_kv_template_remove" href="#" onclick="document.app.screens.configurationScreen.deleteConfigItem('{configKey}');">remove</a>
+        </td>
     </tr>
 </template>
 
