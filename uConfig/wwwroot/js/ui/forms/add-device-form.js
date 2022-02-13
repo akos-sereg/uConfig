@@ -20,19 +20,19 @@ AddDeviceForm.prototype.clear = function () {
 AddDeviceForm.prototype.show = function () {
     $('#add_device_container').show();
     this.isDisplayed = true;
+    $('#add_device_link').html('&lt; Add new device ...');
 }
 
 AddDeviceForm.prototype.hide = function () {
     $('#add_device_container').hide();
     this.isDisplayed = false;
+    $('#add_device_link').html('&gt; Add new device ...');
 }
 
 AddDeviceForm.prototype.toggle = function () {
     if (this.isDisplayed) {
         this.hide();
-        $('#add_device_link').html('&gt; Add new device ...');
     } else {
         this.show();
-        $('#add_device_link').html('&lt; Add new device ...');
     }
 }

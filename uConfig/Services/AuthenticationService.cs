@@ -10,7 +10,11 @@ namespace uConfig.Services
     {
         public LoggedInUser GetLoggedInUser()
         {
-            return new LoggedInUser() { Email = "akos.sereg@gmail.com", UserID = 1234 };
+            return new LoggedInUser() { 
+                Email = "akos.sereg@gmail.com", 
+                UserID = 1234,
+                ApiKey = "7612354561234781256347123564"
+            };
         }
     }
 }

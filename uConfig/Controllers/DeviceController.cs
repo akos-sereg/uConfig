@@ -97,7 +97,8 @@ namespace uConfig.Controllers
 
             Device device = _deviceRepository.GetDeviceById(deviceId);
             DeviceConfig deviceConfig = _deviceRepository.GetDeviceConfig(deviceId);
-            if (deviceConfig == null || device == null)
+
+            if (device == null)
             {
                 HttpContext.Response.StatusCode = 404;
                 return null;
@@ -107,6 +108,11 @@ namespace uConfig.Controllers
             {
                 HttpContext.Response.StatusCode = 401;
                 return null;
+            }
+
+            if (deviceConfig == null)
+            {
+                return DeviceConfig.Default;
             }
 
             return deviceConfig;

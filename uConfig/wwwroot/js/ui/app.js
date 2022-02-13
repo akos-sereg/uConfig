@@ -13,6 +13,7 @@
     
     // state
     this.state = {
+        loggedInUser: null,
         devices: []
     };
 }
@@ -30,7 +31,9 @@ App.prototype.init = function () {
     this.screens.screenHandler.showScreen('devices');
 
     this.screens.devicesScreen.init();
-    this.services.backendService.login({ username: '', password: '' }, function () {
+    this.services.backendService.login({ username: '', password: '' }, function (loggedInUser) {
+        self.state.loggedInUser = loggedInUser;
+
         // user is now logged in, we can fetch devices now
         self.screens.devicesScreen.fetchDevices();;
     });

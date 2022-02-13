@@ -11,6 +11,14 @@ namespace uConfig.Model
 
         public int UserID { get; set; }
 
+        /// <summary>
+        /// OAuth token for current web session
+        /// </summary>
         public string Token { get; set; }
+
+        /// <summary>
+        /// API Key that can be used by devices to fetch configuration
+        /// </summary>
+        public string ApiKey { get; set; }
     }
 }

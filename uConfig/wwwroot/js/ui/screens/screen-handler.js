@@ -19,7 +19,7 @@ ScreenHandler.prototype.showScreen = function (screenName, context) {
         case 'devices':
             break;
         case 'configuration':
-            document.app.screens.configurationScreen.context =
+            document.app.screens.configurationScreen.device =
                 document.app.state.devices.find(function (device) { return device.deviceID == context });
             document.app.screens.configurationScreen.load();
             break;

@@ -19,6 +19,7 @@ DevicesScreen.prototype.submitNewDevice = function () {
 
         toastr["success"]("Device registered successfully");
         self.fetchDevices();
+        self.addDeviceForm.hide();
     });
 }
 

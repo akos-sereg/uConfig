@@ -12,9 +12,8 @@ BackendService.prototype.login = function (loginData, onSuccess) {
         url: document.app.getConfig().apiUrl + '/login',
         data: JSON.stringify(loginData),
         success: function (response) {
-            debugger;
             self.token = response.token;
-            onSuccess();
+            onSuccess(response);
         },
         error: function (xhr) {
             console.error('Backend service call failure');
