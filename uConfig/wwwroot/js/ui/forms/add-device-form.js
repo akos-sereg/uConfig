@@ -23,6 +23,22 @@ AddDeviceForm.prototype.show = function () {
     $('#add_device_link').html('&lt; Add new device ...');
 }
 
+AddDeviceForm.prototype.validate = function () {
+    var formData = this.getFormData();
+
+    if (formData.name == '') {
+        toastr["warning"]("Device name is required field");
+        return false;
+    }
+
+    if (formData.platform == '') {
+        toastr["warning"]("Device platform is required field");
+        return false;
+    }
+
+    return true;
+}
+
 AddDeviceForm.prototype.hide = function () {
     $('#add_device_container').hide();
     this.isDisplayed = false;

@@ -10,6 +10,11 @@ DevicesScreen.prototype.init = function () {
 }
 
 DevicesScreen.prototype.submitNewDevice = function () {
+
+    if (!this.addDeviceForm.validate()) {
+        return;
+    }
+
     var formData = this.addDeviceForm.getFormData();
     var self = this;
 
