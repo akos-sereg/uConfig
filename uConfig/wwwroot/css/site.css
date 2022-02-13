@@ -175,3 +175,9 @@
 #config_device_name_nav {
     font-weight: bold;
 }
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}

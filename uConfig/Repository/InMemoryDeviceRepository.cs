@@ -43,6 +43,11 @@ namespace uConfig.Repository
             deviceToUpdate.Platform = device.Platform;
         }
 
+        public void DeleteDevice(Guid deviceId)
+        {
+            RegisteredDevices.Remove(RegisteredDevices.Find(device => device.DeviceID == deviceId));
+        }
+
         #endregion Device Management
 
         #region Device Config Management

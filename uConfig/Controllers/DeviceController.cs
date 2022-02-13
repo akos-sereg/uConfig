@@ -84,6 +84,30 @@ namespace uConfig.Controllers
             HttpContext.Response.StatusCode = 204;
         }
 
+        [HttpDelete]
+        [Route("{deviceId}")]
+        public void DeleteDevice(Guid deviceId)
+        {
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            _logger.LogInformation("Delete Device call from {email}", loggedInUser.Email);
+
+            Device deviceToDelete = _deviceRepository.GetDeviceById(deviceId);
+            if (deviceToDelete == null)
+            {
+                HttpContext.Response.StatusCode = 404;
+                return;
+            }
+
+            if (deviceToDelete.UserID != loggedInUser.UserID)
+            {
+                HttpContext.Response.StatusCode = 401;
+                return;
+            }
+
+            _deviceRepository.DeleteDevice(deviceId);
+            HttpContext.Response.StatusCode = 204;
+        }
+
         [HttpGet]
         public List<Device> GetDevices()
         {

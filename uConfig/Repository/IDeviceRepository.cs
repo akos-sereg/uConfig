@@ -19,6 +19,8 @@ namespace uConfig.Repository
 
         void UpdateDevice(Device device);
 
+        void DeleteDevice(Guid deviceId);
+
         #endregion
 
         #region Device Config Management

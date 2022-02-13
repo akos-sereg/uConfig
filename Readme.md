@@ -18,15 +18,18 @@ $ docker rm --force uconfig && docker build -t uconfig . && docker run -d -p 808
 
 ## TODOs
 
-Device controller
 - use rdbms instead of in-memory store
-
-Login controller
 - introduce JWT token
 - handle incorrect login
-
-Misc
 - Add validation: create devices, update device, add config key-value
 - Install swagger
 - End to end tests for Web API
+- show microcontroller data (cpu, memory, etc)
+- device instance based on MAC address
+- device-already-read indicator
+- return stale data while editing
 
+## Use cases
+
+- managing PIN code of immobiliser
+- co2 sensor to be accessible in different wifi zones

@@ -106,3 +106,18 @@ BackendService.prototype.updateDevice = function (deviceId, device, onSuccess) {
         contentType: "application/json"
     });
 }
+
+BackendService.prototype.deleteDevice = function (deviceId, onSuccess) {
+    $.ajax({
+        type: "DELETE",
+        url: document.app.getConfig().apiUrl + '/device/' + deviceId,
+        success: function () {
+            onSuccess();
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+}

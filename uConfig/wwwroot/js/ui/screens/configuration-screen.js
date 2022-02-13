@@ -102,7 +102,20 @@ ConfigurationScreen.prototype.updateDevice = function () {
         this.device.deviceID,
         deviceData,
         function () {
+            $('#config_device_name_nav').html(deviceData.name);
             toastr["success"]("Device updated successfully");
+        }
+    );
+}
+
+ConfigurationScreen.prototype.deleteDevice = function () {
+    document.app.services.backendService.deleteDevice(
+        this.device.deviceID,
+        function () {
+            toastr["success"]("Device deleted successfully");
+
+            document.app.screens.screenHandler.showScreen('devices', null);
+            document.app.screens.devicesScreen.fetchDevices();
         }
     );
 }
