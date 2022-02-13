@@ -1,6 +1,7 @@
 ﻿function ConfigurationScreen() {
     this.name = 'configuration';
     this.device = {};
+    this.deviceConfig = { "Items": [] };
     this.tabPages = new TabPages(
         '#tab_pages_configuration',
         '#tab_pages_config_nav',
@@ -30,6 +31,7 @@
 }
 
 ConfigurationScreen.prototype.load = function () {
+    var self = this;
     this.tabPages.render();
 
     // details tab
@@ -39,4 +41,27 @@ ConfigurationScreen.prototype.load = function () {
     // access tab
     $('#config_access_url').val(document.app.getConfig().apiUrl + '/device/' + this.device.deviceID + '/config?apiKey=' + document.app.state.loggedInUser.apiKey);
     $('#config_access_apikey').val(document.app.state.loggedInUser.apiKey);
+
+    // params tab
+    document.app.services.backendService.getDeviceConfig(this.device.deviceID, function (deviceConfig) {
+        self.deviceConfig = deviceConfig;
+        self.renderKeyValueList();
+    });
+}
+
+ConfigurationScreen.prototype.renderKeyValueList = function () {
+    var paramsContainer = document.querySelector('#config_list_container_tbody');
+    paramsContainer.innerHTML = '';
+
+    let kvPairTemplate = document.querySelector('#config_key_value');
+    this.deviceConfig.items.forEach(function (kvPair) {
+        let kvPairItem = kvPairTemplate.content.cloneNode(true).querySelector('tr');
+        kvPairItem.querySelector('#config_kv_template_key').innerHTML = kvPair.Key;
+        kvPairItem.querySelector('#config_kv_template_value').innerHTML = kvPair.Value;
+        paramsContainer.append(kvPairItem);
+    });
+
+    let kvPairAddTemplate = document.querySelector('#config_key_value_add');
+    let kvPairAdd = kvPairAddTemplate.content.cloneNode(true).querySelector('tr');
+    paramsContainer.append(kvPairAdd);
 }

@@ -104,7 +104,24 @@
             </form>
 
         </div>
-        <div id="tab_pages_config_params">c</div>
+        <div id="tab_pages_config_params">
+
+            <div id="config_list_div_container">
+                <table class="table config_list_container">
+                    <thead>
+                        <tr>
+                            <th scope="col">Config Key</th>
+                            <th scope="col">Value</th>
+                            <th scope="col">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody id="config_list_container_tbody">
+                    </tbody>
+                </table>
+            </div>
+            
+
+        </div>
         <div id="tab_pages_config_console">d</div>
         <div id="tab_pages_config_activity">d</div>
     </div>
@@ -126,4 +143,26 @@
 
 <template id="tab_item_template">
     <span onclick="[tabComponent].switch('{tabId}');" data-tab-id="[tabId]" class="tab_item"></span>
+</template>
+
+<template id="config_key_value">
+    <tr>
+        <td id="config_kv_template_key"></td>
+        <td id="config_kv_template_value"></td>
+        <td></td>
+    </tr>
+</template>
+
+<template id="config_key_value_add">
+    <tr>
+        <td>
+            <input id="config_add_key" value="" class="form-control" type="text">
+        </td>
+        <td>
+            <input id="config_add_value" value="" class="form-control" type="text">
+        </td>
+        <td>
+            <button class="btn btn-xs btn-primary">add</button>
+        </td>
+    </tr>
 </template>

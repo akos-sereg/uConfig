@@ -53,7 +53,21 @@ BackendService.prototype.getDevices = function (onSuccess) {
         type: "GET",
         url: document.app.getConfig().apiUrl + '/device',
         success: function (data) {
-            console.log(data);
+            onSuccess(data);
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+}
+
+// ---------------------------------------------------------------------------------
+// Device Config
+// ---------------------------------------------------------------------------------
+BackendService.prototype.getDeviceConfig = function (deviceId, onSuccess) {
+    $.ajax({
+        type: "GET",
+        url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/config',
+        success: function (data) {
             onSuccess(data);
         },
         dataType: 'json',

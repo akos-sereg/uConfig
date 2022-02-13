@@ -167,3 +167,7 @@
 #tab_pages_configuration > div > form {
     width: 650px;
 }
+
+#config_list_div_container {
+    width: 650px;
+}
