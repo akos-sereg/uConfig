@@ -3,6 +3,7 @@
     this.device = {};
     this.deviceConfig = { "Items": [] };
     this.addConfigItemForm = new AddConfigItemForm();
+    this.updateDeviceForm = new UpdateDeviceForm();
     this.tabPages = new TabPages(
         '#tab_pages_configuration',
         '#tab_pages_config_nav',
@@ -89,6 +90,19 @@ ConfigurationScreen.prototype.deleteConfigItem = function (key) {
                 self.deviceConfig = deviceConfig;
                 self.renderKeyValueList();
             });
+        }
+    );
+}
+
+ConfigurationScreen.prototype.updateDevice = function () {
+    var deviceData = this.updateDeviceForm.getFormData();
+    deviceData.deviceId = this.device.deviceID;
+
+    document.app.services.backendService.updateDevice(
+        this.device.deviceID,
+        deviceData,
+        function () {
+            toastr["success"]("Device updated successfully");
         }
     );
 }

@@ -13,9 +13,11 @@ namespace uConfig.Repository
 
         bool IsDeviceAlreadyRegistered(Device device);
 
-        List<Device> GetDevices(string ownerEmail);
+        List<Device> GetDevices(int userId);
 
         Device GetDeviceById(Guid deviceId);
+
+        void UpdateDevice(Device device);
 
         #endregion
 

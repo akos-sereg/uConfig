@@ -37,7 +37,7 @@ namespace uConfig.Controllers
                 return;
             }
 
-            device.OwnerEmail = loggedInUser.Email;
+            device.UserID = loggedInUser.UserID;
 
             if (!_deviceRepository.IsDeviceAlreadyRegistered(device))
             {
@@ -51,13 +51,46 @@ namespace uConfig.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("{deviceId}")]
+        public void UpdateDevice(Guid deviceId, Device device)
+        {
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            _logger.LogInformation("Update Device call from {email}, new device name: {deviceName}", loggedInUser.Email, device.Name);
+
+            if (!ModelState.IsValid || deviceId != device.DeviceID)
+            {
+                HttpContext.Response.StatusCode = 400;
+                return;
+            }
+
+            List<Device> devices = _deviceRepository.GetDevices(loggedInUser.UserID);
+            Device deviceToUpdate = devices.Find(registeredDevice => registeredDevice.DeviceID == deviceId);
+            if (deviceToUpdate.UserID != loggedInUser.UserID)
+            {
+                HttpContext.Response.StatusCode = 401;
+                return;
+            }
+
+            if (devices.Find(registeredDevice => registeredDevice.Name.Equals(device.Name)) != null)
+            {
+                HttpContext.Response.StatusCode = 409;
+                return;
+            }
+
+            device.UserID = loggedInUser.UserID;
+
+            _deviceRepository.UpdateDevice(device);
+            HttpContext.Response.StatusCode = 204;
+        }
+
         [HttpGet]
         public List<Device> GetDevices()
         {
             LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
             _logger.LogInformation("Get Devices call from {email}", loggedInUser.Email);
 
-            return _deviceRepository.GetDevices(loggedInUser.Email);
+            return _deviceRepository.GetDevices(loggedInUser.UserID);
         }
 
         #endregion Device Management
@@ -79,7 +112,7 @@ namespace uConfig.Controllers
                 return;
             }
 
-            if (!device.OwnerEmail.Equals(loggedInUser.Email))
+            if (device.UserID != loggedInUser.UserID)
             {
                 HttpContext.Response.StatusCode = 401;
                 return;
@@ -105,7 +138,7 @@ namespace uConfig.Controllers
                 return null;
             }
 
-            if (!device.OwnerEmail.Equals(loggedInUser.Email))
+            if (device.UserID != loggedInUser.UserID)
             {
                 HttpContext.Response.StatusCode = 401;
                 return null;

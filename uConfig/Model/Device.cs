@@ -16,6 +16,6 @@ namespace uConfig.Model
         [Required]
         public string Platform { get; set; }
 
-        public string OwnerEmail { get; set; }
+        public int UserID { get; set; }
     }
 }

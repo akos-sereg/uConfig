@@ -81,11 +81,25 @@ BackendService.prototype.createOrUpdateDeviceConfig = function (deviceId, device
         url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/config',
         data: JSON.stringify(deviceConfig),
         success: function () {
-            console.log('add config item succeeded')
             onSuccess();
         },
         error: function (xhr) {
-            console.log('error');
+            console.log(xhr);
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+}
+
+BackendService.prototype.updateDevice = function (deviceId, device, onSuccess) {
+    $.ajax({
+        type: "PUT",
+        url: document.app.getConfig().apiUrl + '/device/' + deviceId,
+        data: JSON.stringify(device),
+        success: function () {
+            onSuccess();
+        },
+        error: function (xhr) {
             console.log(xhr);
         },
         dataType: 'json',

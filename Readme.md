@@ -25,7 +25,8 @@ Login controller
 - introduce JWT token
 - handle incorrect login
 
-Tech Debt
+Misc
+- Add validation: create devices, update device, add config key-value
 - Install swagger
 - End to end tests for Web API
 

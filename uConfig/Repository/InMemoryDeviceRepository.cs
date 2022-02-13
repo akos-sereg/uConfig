@@ -21,19 +21,26 @@ namespace uConfig.Repository
         public bool IsDeviceAlreadyRegistered(Device device)
         {
             int matchCount = RegisteredDevices.FindAll(registeredDevice => 
-                registeredDevice.OwnerEmail.Equals(device.OwnerEmail) && registeredDevice.Name.Equals(device.Name)).Count;
+                registeredDevice.UserID == device.UserID && registeredDevice.Name.Equals(device.Name)).Count;
 
             return matchCount > 0;
         }
 
-        public List<Device> GetDevices(string ownerEmail)
+        public List<Device> GetDevices(int userId)
         {
-            return RegisteredDevices.FindAll(device => device.OwnerEmail.Equals(ownerEmail));
+            return RegisteredDevices.FindAll(device => device.UserID == userId);
         }
 
         public Device GetDeviceById(Guid deviceId)
         {
             return RegisteredDevices.Find(device => device.DeviceID.Equals(deviceId));
+        }
+
+        public void UpdateDevice(Device device)
+        {
+            Device deviceToUpdate = RegisteredDevices.Find(registeredDevice => registeredDevice.DeviceID == device.DeviceID);
+            deviceToUpdate.Name = device.Name;
+            deviceToUpdate.Platform = device.Platform;
         }
 
         #endregion Device Management
