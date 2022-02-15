@@ -148,7 +148,7 @@ namespace uConfig.Controllers
 
         [HttpGet]
         [Route("{deviceId}/config")]
-        public DeviceConfig GetDeviceConfig(Guid deviceId)
+        public IActionResult GetDeviceConfig(Guid deviceId)
         {
             LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
             _logger.LogInformation("Get Device Config call from {email}", loggedInUser.Email);
@@ -170,10 +170,24 @@ namespace uConfig.Controllers
 
             if (deviceConfig == null)
             {
-                return DeviceConfig.Default;
+                if (HttpContext.Request.ContentType == null || HttpContext.Request.ContentType.Equals("application/json"))
+                {
+                    return Ok(DeviceConfig.Default);
+                } else
+                {
+                    return Ok(DeviceConfig.Default.ToTextPlain());
+                }
+                
             }
 
-            return deviceConfig;
+            if (HttpContext.Request.ContentType == null || HttpContext.Request.ContentType.Equals("application/json"))
+            {
+                return Ok(deviceConfig);
+            } else
+            {
+                return Ok(deviceConfig.ToTextPlain());
+            }
+                
         }
 
         #endregion Device Config Management

@@ -37,7 +37,6 @@ ConfigurationScreen.prototype.load = function () {
     this.tabPages.render();
 
     // details tab
-    $('#config_device_name_nav').html(this.device.name);
     $('#config_device_name').val(this.device.name);
     $('#config_device_platform').val(this.device.platform);
 
@@ -102,7 +101,6 @@ ConfigurationScreen.prototype.updateDevice = function () {
         this.device.deviceID,
         deviceData,
         function () {
-            $('#config_device_name_nav').html(deviceData.name);
             toastr["success"]("Device updated successfully");
         }
     );

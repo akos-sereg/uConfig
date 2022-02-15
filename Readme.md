@@ -28,6 +28,7 @@ $ docker rm --force uconfig && docker build -t uconfig . && docker run -d -p 808
 - device instance based on MAC address
 - device-already-read indicator
 - return stale data while editing
+- ask for confirmation before executing btn-danger actions
 
 ## Use cases
 

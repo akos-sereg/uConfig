@@ -59,7 +59,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#" onclick="document.app.screens.screenHandler.showScreen('devices');">Devices</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Configuration of <span id="config_device_name_nav"></span></li>
+            <li class="breadcrumb-item active" aria-current="page">Configuration</li>
         </ol>
     </nav>
 
@@ -98,7 +98,7 @@
                     <label for="staticEmail" class="col-sm-2 col-form-label">API Key</label>
                     <div class="col-sm-10">
                         <input id="config_access_apikey" value="" class="form-control" type="text" readonly>
-                        <small class="form-text text-muted">If you rotate the API key, your device will no longer be available to access with the old key.</small>
+                        <small class="form-text text-muted">If you rotate the API key, your device will no longer be available to access with the old key. You will need to re-deploy your code to the device with the new API key.</small>
                         <button class="btn btn-sm btn-danger">Rotate</button>
                     </div>
                 </div>
