@@ -1,7 +1,8 @@
-﻿function TabPages(containerId, navigationId, tabs) {
+﻿function TabPages(containerId, navigationId, tabs, onSwitch) {
     this.containerId = containerId;
     this.navigationId = navigationId;
     this.tabs = tabs;
+    this.onSwitch = onSwitch;
 
     $(this.containerId).hide();
 
@@ -67,6 +68,8 @@ TabPages.prototype.switch = function (tabId) {
         }
         
     });
+
+    this.onSwitch(tabId);
 }
 
 // ---------------------------------------------------------------------

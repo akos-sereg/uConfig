@@ -69,12 +69,20 @@
         <div id="tab_pages_config_nav"></div>
         <div id="tab_pages_config_details">
 
+            <div class="alert alert-warning" id="device_not_connected" role="alert">
+                Device is not connected. Navigate to Access tab to see how you can configure your device to use UConfig.
+            </div>
+
+            <div class="alert alert-success" id="device_connected" role="alert">
+                Device fetched configs <span class="device_last_seen"></span> seconds ago.
+            </div>
+
             <form>
-                <div class="form-group row">
+                <div class="form-group">
                     <label for="config_device_name">Name</label>
                     <input type="text" class="form-control" id="config_device_name">
                 </div>
-                <div class="form-group row">
+                <div class="form-group">
                     <label for="config_device_platform">Platform</label>
                     <input type="text" class="form-control" id="config_device_platform">
                 </div>

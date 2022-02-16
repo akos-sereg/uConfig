@@ -60,13 +60,25 @@ BackendService.prototype.getDevices = function (onSuccess) {
     });
 }
 
+BackendService.prototype.getDeviceActivity = function (deviceId, onSuccess) {
+    $.ajax({
+        type: "GET",
+        url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/activity',
+        success: function (lastSeen, resp) {
+            onSuccess(resp == 'nocontent' ? -1 : lastSeen);
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+}
+
 // ---------------------------------------------------------------------------------
 // Device Config
 // ---------------------------------------------------------------------------------
 BackendService.prototype.getDeviceConfig = function (deviceId, onSuccess) {
     $.ajax({
         type: "GET",
-        url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/config',
+        url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/config?origin=web',
         success: function (data) {
             onSuccess(data);
         },

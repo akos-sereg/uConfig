@@ -181,3 +181,7 @@
     width: 50%;
     padding: 10px;
 }
+
+.device_last_seen {
+    font-weight: bold;
+}

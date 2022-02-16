@@ -1,4 +1,5 @@
 ﻿function ConfigurationScreen() {
+    var self = this;
     this.name = 'configuration';
     this.device = {};
     this.deviceConfig = { "Items": [] };
@@ -28,7 +29,21 @@
                 pageId: '#tab_pages_config_activity',
                 label: 'Activity'
             }
-        ]
+        ],
+        function (tabId) {
+            if (tabId == '#tab_pages_config_details') {
+                document.app.services.backendService.getDeviceActivity(self.device.deviceID, function (lastSeenInSeconds) {
+                    if (lastSeenInSeconds == -1) {
+                        $('#device_not_connected').show();
+                        $('#device_connected').hide();
+                    } else {
+                        $('.device_last_seen').html(lastSeenInSeconds);
+                        $('#device_connected').show();
+                        $('#device_not_connected').hide();
+                    }
+                });
+            }
+        }
     );
 }
 
@@ -39,6 +54,8 @@ ConfigurationScreen.prototype.load = function () {
     // details tab
     $('#config_device_name').val(this.device.name);
     $('#config_device_platform').val(this.device.platform);
+    $('#device_not_connected').hide();
+    $('#device_connected').hide();
 
     // access tab
     $('#config_access_device_id').val(this.device.deviceID);

@@ -170,8 +170,11 @@ namespace uConfig.Controllers
             }
 
             // device requested for stored config, so we assume that device is connected and active
-            _deviceActivityRepository.RegisterDeviceCheckin(deviceId.ToString());
-
+            if (!HttpContext.Request.Query.ContainsKey("origin") || !HttpContext.Request.Query["origin"].Equals("web"))
+            {
+                _deviceActivityRepository.RegisterDeviceCheckin(deviceId.ToString());
+            }
+            
             if (deviceConfig == null)
             {
                 if (HttpContext.Request.ContentType == null || HttpContext.Request.ContentType.Equals("application/json"))
@@ -220,7 +223,7 @@ namespace uConfig.Controllers
             DateTime? lastSeen = _deviceActivityRepository.GetLastSeen(deviceId.ToString());
             if (lastSeen.HasValue)
             {
-                return Ok(lastSeen.Value);
+                return Ok((int)DateTime.Now.Subtract(lastSeen.Value).TotalSeconds);
             } else
             {
                 return NoContent();
