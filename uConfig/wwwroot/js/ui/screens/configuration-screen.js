@@ -119,6 +119,7 @@ ConfigurationScreen.prototype.updateDevice = function () {
         deviceData,
         function () {
             toastr["success"]("Device updated successfully");
+            document.app.screens.devicesScreen.fetchDevices();
         }
     );
 }

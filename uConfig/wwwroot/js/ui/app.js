@@ -35,6 +35,6 @@ App.prototype.init = function () {
         self.state.loggedInUser = loggedInUser;
 
         // user is now logged in, we can fetch devices now
-        self.screens.devicesScreen.fetchDevices();;
+        self.screens.devicesScreen.fetchDevices();
     });
 }
