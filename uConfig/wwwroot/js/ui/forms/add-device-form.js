@@ -8,7 +8,6 @@ AddDeviceForm.prototype.getFormData = function () {
         platform: $('#add_device_platform').val(),
     }
 
-    console.log(formData);
     return formData;
 }
 

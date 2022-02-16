@@ -65,7 +65,29 @@ ConfigurationScreen.prototype.load = function () {
     document.app.services.backendService.getDeviceConfig(this.device.deviceID, function (deviceConfig) {
         self.deviceConfig = deviceConfig;
         self.renderKeyValueList();
+
+        // update sample code on access tab
+        self.refreshSampleCode(deviceConfig);
     });
+}
+
+ConfigurationScreen.prototype.refreshSampleCode = function () {
+    var sampleCode = $('#sample_code_template').html()
+        .replace('{deviceId}', this.device.deviceID)
+        .replace('{apiKey}', document.app.state.loggedInUser.apiKey);
+
+    var paramsCode = this.deviceConfig.items.length == 0 ? '    // no key-value pair added yet. use Params tab to add config.\n' : '';
+    this.deviceConfig.items.forEach(function (item) {
+        const parsed = parseInt(item.value, 10);
+        if (!isNaN(parsed)) {
+            paramsCode += '    printf("' + item.key + ': %d\\n", uconfig_get_int_param("' + item.key + '", 1234));\n';
+        }
+        else {
+            paramsCode += '    printf("' + item.key + ': %s\\n", uconfig_get_string_param("' + item.key + '", "aaaa"));\n';
+        }
+    });
+    var sampleCode = sampleCode.replace('{getParamsCode}', paramsCode);
+    $('#sample_code').html(sampleCode);
 }
 
 ConfigurationScreen.prototype.renderKeyValueList = function () {

@@ -100,7 +100,7 @@
                     <label for="config_access_device_id" class="col-sm-2 col-form-label">Device ID</label>
                     <div class="col-sm-10">
                         <input id="config_access_device_id" value="" class="form-control" type="text" readonly>
-                        <small class="form-text text-muted">Your device can fetch configuration from this URL</small>
+                        <small class="form-text text-muted">You need this identifier to fetch configs from your device.</small>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -111,7 +111,11 @@
                         <button class="btn btn-sm btn-danger">Rotate</button>
                     </div>
                 </div>
-            </form>            
+            </form>
+
+            <h3>Sample code for Espressif ESP32</h3>
+            <pre id="sample_code">
+            </pre>
 
         </div>
         <div id="tab_pages_config_params">
@@ -181,4 +185,25 @@
             <button onclick="document.app.screens.configurationScreen.addConfigItemForm.submit();" class="btn btn-primary">add</button>
         </td>
     </tr>
+</template>
+
+<template id="sample_code_template">
+// this function is called once, when configs are fetched from remote server at the
+// first time. periodic updates are still running, and you can call uconfig_get_int_param
+// or uconfig_get_string_param later in your code to use the most recent values
+void configs_first_time_fetched() {
+    printf("Config values have been fetched from UConfig:\n");
+{getParamsCode}}
+
+void app_main()
+{
+    // initialize wifi with uconfig library. as long as the device's wifi connection is
+    // managed by uconfig, you can define primary and secondary wifi zones, so your device
+    // will be portable without re-deploying
+    uconfig_initialize_wifi("{your-wifi-ssid}", "{your-wifi-password}");
+
+    // start polling for configs
+    // device_id and api_key belong to a registered device on UConfig
+    uconfig_start("{deviceId}", "{apiKey}", &configs_first_time_fetched, 60);
+}
 </template>
