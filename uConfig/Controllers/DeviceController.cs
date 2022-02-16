@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using uConfig.DTOs;
 using uConfig.Model;
 using uConfig.Repository;
 using uConfig.Services;
@@ -14,12 +15,14 @@ namespace uConfig.Controllers
     {
         private readonly ILogger<DeviceController> _logger;
         private IDeviceRepository _deviceRepository;
+        private IDeviceActivityRepository _deviceActivityRepository;
         private AuthenticationService _authenticationService;
 
         public DeviceController(ILogger<DeviceController> logger)
         {
             _logger = logger;
             _deviceRepository = new InMemoryDeviceRepository();
+            _deviceActivityRepository = new DeviceActivityRepository();
             _authenticationService = new AuthenticationService();
         }
 
@@ -158,15 +161,16 @@ namespace uConfig.Controllers
 
             if (device == null)
             {
-                HttpContext.Response.StatusCode = 404;
-                return null;
+                return NotFound(new ErrorResponse() { Message = "Not Found" });
             }
 
             if (device.UserID != loggedInUser.UserID)
             {
-                HttpContext.Response.StatusCode = 401;
-                return null;
+                return Unauthorized(new ErrorResponse() { Message = "Device belongs to another user" });
             }
+
+            // device requested for stored config, so we assume that device is connected and active
+            _deviceActivityRepository.RegisterDeviceCheckin(deviceId.ToString());
 
             if (deviceConfig == null)
             {
@@ -192,5 +196,37 @@ namespace uConfig.Controllers
 
         #endregion Device Config Management
 
+        #region Device Activity Management
+
+        [HttpGet]
+        [Route("{deviceId}/activity")]
+        public IActionResult GetDeviceActivity(Guid deviceId)
+        {
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            _logger.LogInformation("Get Device Config call from {email}", loggedInUser.Email);
+
+            Device device = _deviceRepository.GetDeviceById(deviceId);
+
+            if (device == null)
+            {
+                return NotFound(new ErrorResponse() { Message = "Device not found" });
+            }
+
+            if (device.UserID != loggedInUser.UserID)
+            {
+                return Unauthorized(new ErrorResponse() { Message = "Device belongs to another user" });
+            }
+
+            DateTime? lastSeen = _deviceActivityRepository.GetLastSeen(deviceId.ToString());
+            if (lastSeen.HasValue)
+            {
+                return Ok(lastSeen.Value);
+            } else
+            {
+                return NoContent();
+            }
+        }
+
+        #endregion
     }
 }

@@ -41,7 +41,7 @@ ConfigurationScreen.prototype.load = function () {
     $('#config_device_platform').val(this.device.platform);
 
     // access tab
-    $('#config_access_url').val(document.app.getConfig().apiUrl + '/device/' + this.device.deviceID + '/config?apiKey=' + document.app.state.loggedInUser.apiKey);
+    $('#config_access_device_id').val(this.device.deviceID);
     $('#config_access_apikey').val(document.app.state.loggedInUser.apiKey);
 
     // params tab

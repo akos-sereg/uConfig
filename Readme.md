@@ -29,6 +29,7 @@ $ docker rm --force uconfig && docker build -t uconfig . && docker run -d -p 808
 - device-already-read indicator
 - return stale data while editing
 - ask for confirmation before executing btn-danger actions
+- make all endpoints api key protected
 
 ## Use cases
 
