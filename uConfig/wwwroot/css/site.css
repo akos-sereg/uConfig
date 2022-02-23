@@ -185,3 +185,14 @@
 .device_last_seen {
     font-weight: bold;
 }
+
+#console_logs {
+
+    width: 100%;
+    height: 640px;
+    overflow-y: scroll;
+    background-color: #000000;
+    color: #eeeeee;
+    padding: 15px;
+    font-family: 'Lucida Console';
+}

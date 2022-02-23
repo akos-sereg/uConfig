@@ -5,6 +5,15 @@
     this.deviceConfig = { "Items": [] };
     this.addConfigItemForm = new AddConfigItemForm();
     this.updateDeviceForm = new UpdateDeviceForm();
+    this.consolePoller = {
+        deviceId: null,
+        poller: null,
+    };
+    this.detailsPoller = {
+        deviceId: null,
+        poller: null,
+    };
+
     this.tabPages = new TabPages(
         '#tab_pages_configuration',
         '#tab_pages_config_nav',
@@ -32,19 +41,59 @@
         ],
         function (tabId) {
             if (tabId == '#tab_pages_config_details') {
-                document.app.services.backendService.getDeviceActivity(self.device.deviceID, function (lastSeenInSeconds) {
-                    if (lastSeenInSeconds == -1) {
-                        $('#device_not_connected').show();
-                        $('#device_connected').hide();
-                    } else {
-                        $('.device_last_seen').html(lastSeenInSeconds);
-                        $('#device_connected').show();
-                        $('#device_not_connected').hide();
+                if (self.detailsPoller.deviceId == self.device.deviceID) {
+                    return;
+                } else {
+                    if (self.detailsPoller.poller) {
+                        clearInterval(self.detailsPoller.poller);
                     }
-                });
+                }
+
+                function pollerJob() {
+                    document.app.services.backendService.getDeviceActivity(self.device.deviceID, function (lastSeenInSeconds) {
+                        if (lastSeenInSeconds == -1) {
+                            $('#device_not_connected').show();
+                            $('#device_connected').hide();
+                        } else {
+                            $('.device_last_seen').html(lastSeenInSeconds);
+                            $('#device_connected').show();
+                            $('#device_not_connected').hide();
+                        }
+                    });
+                }
+
+                pollerJob();
+                self.detailsPoller.deviceId = self.device.deviceID;
+                self.detailsPoller.poller = setInterval(pollerJob, document.app.getConfig().detailsPollInterval * 1000);
+                
+            } else if (tabId == '#tab_pages_config_console') {
+                if (self.consolePoller.deviceId == self.device.deviceID) {
+                    // poller is already running for the target device
+                    return;
+                } else {
+                    // poller is running for a different device, canceling poller
+                    if (self.consolePoller.poller) {
+                        clearInterval(self.consolePoller.poller);
+                    }
+                }
+
+                function pollerJob() {
+                    document.app.services.backendService.getDeviceLogs(self.device.deviceID, function (logs) {
+                        $('#console_logs').html(logs.map(function (logEntry) { return logEntry + '<br/>'; }));
+                    });
+                }
+
+                pollerJob();
+                self.consolePoller.deviceId = self.device.deviceID;
+                self.consolePoller.poller = setInterval(pollerJob, document.app.getConfig().consoleLogPollInterval * 1000);
+                
             }
         }
     );
+
+    // polling for console logs
+    
+    
 }
 
 ConfigurationScreen.prototype.load = function () {

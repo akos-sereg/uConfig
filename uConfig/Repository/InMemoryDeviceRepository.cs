@@ -11,6 +11,20 @@ namespace uConfig.Repository
         private static readonly List<Device> RegisteredDevices = new List<Device>();
         private static readonly Dictionary<Guid, DeviceConfig> DeviceConfigs = new Dictionary<Guid, DeviceConfig>();
 
+        static InMemoryDeviceRepository() {
+            RegisteredDevices.Add(new Device()
+            {
+                DeviceID = Guid.Parse("00f2a002-1ae7-4727-8093-4ab01b0ab3ee"),
+                Name = "Test",
+                Platform = "esp32",
+                UserID = 1234
+            });
+
+            DeviceConfigs.Add(
+                Guid.Parse("00f2a002-1ae7-4727-8093-4ab01b0ab3ee"), 
+                new DeviceConfig() { Items = new List<DeviceConfigItem>() { } });
+        }
+
         #region Device Management
         public void RegisterDevice(Device device)
         {

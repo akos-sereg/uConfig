@@ -72,6 +72,18 @@ BackendService.prototype.getDeviceActivity = function (deviceId, onSuccess) {
     });
 }
 
+BackendService.prototype.getDeviceLogs = function (deviceId, onSuccess) {
+    $.ajax({
+        type: "GET",
+        url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/logs',
+        success: function (logs) {
+            onSuccess(logs);
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+}
+
 // ---------------------------------------------------------------------------------
 // Device Config
 // ---------------------------------------------------------------------------------

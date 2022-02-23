@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
+using System.Text;
 using uConfig.DTOs;
 using uConfig.Model;
 using uConfig.Repository;
@@ -200,6 +202,53 @@ namespace uConfig.Controllers
         #endregion Device Config Management
 
         #region Device Activity Management
+
+        [HttpGet]
+        [Route("{deviceId}/logs")]
+        public IActionResult GetDeviceLogs(Guid deviceId)
+        {
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            _logger.LogInformation("Get device logs call from device {device}", deviceId);
+
+            Device device = _deviceRepository.GetDeviceById(deviceId);
+
+            if (device == null)
+            {
+                return NotFound(new ErrorResponse() { Message = "Device not found" });
+            }
+
+            if (device.UserID != loggedInUser.UserID)
+            {
+                return Unauthorized(new ErrorResponse() { Message = "Device belongs to another user" });
+            }
+
+            return Ok(_deviceActivityRepository.GetLogs(deviceId.ToString()));
+        }
+
+        [HttpPost]
+        [Route("{deviceId}/logs")]
+        public IActionResult StoreLogs(Guid deviceId, StoreLogsRequest checkinRequest)
+        {
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            _logger.LogInformation("Device checkin call from device {device}", deviceId);
+
+            Device device = _deviceRepository.GetDeviceById(deviceId);
+
+            if (device == null)
+            {
+                return NotFound(new ErrorResponse() { Message = "Device not found" });
+            }
+
+            if (device.UserID != loggedInUser.UserID)
+            {
+                return Unauthorized(new ErrorResponse() { Message = "Device belongs to another user" });
+            }
+
+            _deviceActivityRepository.RegisterDeviceCheckin(deviceId.ToString());
+            _deviceActivityRepository.AppendLogs(deviceId.ToString(), Encoding.UTF8.GetString(Convert.FromBase64String(checkinRequest.Logs)));
+
+            return NoContent();
+        }
 
         [HttpGet]
         [Route("{deviceId}/activity")]
