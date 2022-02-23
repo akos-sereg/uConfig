@@ -33,7 +33,7 @@ namespace uConfig.Controllers
         [HttpPost]
         public void RegisterDevice(Device device)
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Register Device call from {email}, new device name: {deviceName}", loggedInUser.Email, device.Name);
 
             if (!ModelState.IsValid)
@@ -60,7 +60,7 @@ namespace uConfig.Controllers
         [Route("{deviceId}")]
         public void UpdateDevice(Guid deviceId, Device device)
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Update Device call from {email}, new device name: {deviceName}", loggedInUser.Email, device.Name);
 
             if (!ModelState.IsValid || deviceId != device.DeviceID)
@@ -93,7 +93,7 @@ namespace uConfig.Controllers
         [Route("{deviceId}")]
         public void DeleteDevice(Guid deviceId)
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Delete Device call from {email}", loggedInUser.Email);
 
             Device deviceToDelete = _deviceRepository.GetDeviceById(deviceId);
@@ -116,7 +116,7 @@ namespace uConfig.Controllers
         [HttpGet]
         public List<Device> GetDevices()
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Get Devices call from {email}", loggedInUser.Email);
 
             return _deviceRepository.GetDevices(loggedInUser.UserID);
@@ -130,7 +130,7 @@ namespace uConfig.Controllers
         [Route("{deviceId}/config")]
         public void CreateOrUpdateDeviceConfig(Guid deviceId, DeviceConfig deviceConfig)
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Create/Update Device Config call from {email}", loggedInUser.Email);
 
             Device device = _deviceRepository.GetDeviceById(deviceId);
@@ -155,7 +155,7 @@ namespace uConfig.Controllers
         [Route("{deviceId}/config")]
         public IActionResult GetDeviceConfig(Guid deviceId)
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Get Device Config call from {email}", loggedInUser.Email);
 
             Device device = _deviceRepository.GetDeviceById(deviceId);
@@ -207,7 +207,7 @@ namespace uConfig.Controllers
         [Route("{deviceId}/logs")]
         public IActionResult GetDeviceLogs(Guid deviceId)
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Get device logs call from device {device}", deviceId);
 
             Device device = _deviceRepository.GetDeviceById(deviceId);
@@ -229,7 +229,7 @@ namespace uConfig.Controllers
         [Route("{deviceId}/logs")]
         public IActionResult StoreLogs(Guid deviceId, StoreLogsRequest checkinRequest)
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Device checkin call from device {device}", deviceId);
 
             Device device = _deviceRepository.GetDeviceById(deviceId);
@@ -254,7 +254,7 @@ namespace uConfig.Controllers
         [Route("{deviceId}/activity")]
         public IActionResult GetDeviceActivity(Guid deviceId)
         {
-            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser();
+            LoggedInUser loggedInUser = _authenticationService.GetLoggedInUser(HttpContext.Request.Headers["Authorization"]);
             _logger.LogInformation("Get Device Config call from {email}", loggedInUser.Email);
 
             Device device = _deviceRepository.GetDeviceById(deviceId);

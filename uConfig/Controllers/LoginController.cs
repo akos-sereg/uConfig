@@ -18,7 +18,7 @@ namespace uConfig.Controllers
         [HttpPost]
         public LoggedInUser Login(LoginRequest loginRequest)
         {
-            return _authenticationService.GetLoggedInUser();
+            return _authenticationService.Login();
         }
     }
 }
