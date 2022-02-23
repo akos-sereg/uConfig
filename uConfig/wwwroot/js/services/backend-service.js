@@ -28,10 +28,14 @@ BackendService.prototype.login = function (loginData, onSuccess) {
 // Device
 // ---------------------------------------------------------------------------------
 BackendService.prototype.registerDevice = function (device, onSuccess) {
+    var self = this;
     $.ajax({
         type: "POST",
         url: document.app.getConfig().apiUrl + '/device',
         data: JSON.stringify(device),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', self.token);
+        },
         error: function (xhr) {
 
             if (xhr.status != 201) {
@@ -49,9 +53,13 @@ BackendService.prototype.registerDevice = function (device, onSuccess) {
 }
 
 BackendService.prototype.getDevices = function (onSuccess) {
+    var self = this;
     $.ajax({
         type: "GET",
         url: document.app.getConfig().apiUrl + '/device',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', self.token);
+        },
         success: function (data) {
             onSuccess(data);
         },
@@ -61,9 +69,13 @@ BackendService.prototype.getDevices = function (onSuccess) {
 }
 
 BackendService.prototype.getDeviceActivity = function (deviceId, onSuccess) {
+    var self = this;
     $.ajax({
         type: "GET",
         url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/activity',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', self.token);
+        },
         success: function (lastSeen, resp) {
             onSuccess(resp == 'nocontent' ? -1 : lastSeen);
         },
@@ -73,9 +85,13 @@ BackendService.prototype.getDeviceActivity = function (deviceId, onSuccess) {
 }
 
 BackendService.prototype.getDeviceLogs = function (deviceId, onSuccess) {
+    var self = this;
     $.ajax({
         type: "GET",
         url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/logs',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', self.token);
+        },
         success: function (logs) {
             onSuccess(logs);
         },
@@ -88,9 +104,13 @@ BackendService.prototype.getDeviceLogs = function (deviceId, onSuccess) {
 // Device Config
 // ---------------------------------------------------------------------------------
 BackendService.prototype.getDeviceConfig = function (deviceId, onSuccess) {
+    var self = this;
     $.ajax({
         type: "GET",
         url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/config?origin=web',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', self.token);
+        },
         success: function (data) {
             onSuccess(data);
         },
@@ -100,10 +120,14 @@ BackendService.prototype.getDeviceConfig = function (deviceId, onSuccess) {
 }
 
 BackendService.prototype.createOrUpdateDeviceConfig = function (deviceId, deviceConfig, onSuccess) {
+    var self = this;
     $.ajax({
         type: "PUT",
         url: document.app.getConfig().apiUrl + '/device/' + deviceId + '/config',
         data: JSON.stringify(deviceConfig),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', self.token);
+        },
         success: function () {
             onSuccess();
         },
@@ -116,10 +140,14 @@ BackendService.prototype.createOrUpdateDeviceConfig = function (deviceId, device
 }
 
 BackendService.prototype.updateDevice = function (deviceId, device, onSuccess) {
+    var self = this;
     $.ajax({
         type: "PUT",
         url: document.app.getConfig().apiUrl + '/device/' + deviceId,
         data: JSON.stringify(device),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', self.token);
+        },
         success: function () {
             onSuccess();
         },
@@ -132,9 +160,13 @@ BackendService.prototype.updateDevice = function (deviceId, device, onSuccess) {
 }
 
 BackendService.prototype.deleteDevice = function (deviceId, onSuccess) {
+    var self = this;
     $.ajax({
         type: "DELETE",
         url: document.app.getConfig().apiUrl + '/device/' + deviceId,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', self.token);
+        },
         success: function () {
             onSuccess();
         },
