@@ -20,5 +20,6 @@ namespace uConfig.Model
         /// API Key that can be used by devices to fetch configuration
         /// </summary>
         public string ApiKey { get; set; }
+
     }
 }
