@@ -7,6 +7,7 @@
     // screens
     this.screens = {
         screenHandler: new ScreenHandler(),
+        loginScreen: new LoginScreen(),
         devicesScreen: new DevicesScreen(),
         configurationScreen: new ConfigurationScreen()
     }
@@ -30,13 +31,6 @@ App.prototype.init = function () {
     var self = this;
 
     // default screen
-    this.screens.screenHandler.showScreen('devices');
-
+    this.screens.screenHandler.showScreen('login');
     this.screens.devicesScreen.init();
-    this.services.backendService.login({ username: '', password: '' }, function (loggedInUser) {
-        self.state.loggedInUser = loggedInUser;
-
-        // user is now logged in, we can fetch devices now
-        self.screens.devicesScreen.fetchDevices();
-    });
 }

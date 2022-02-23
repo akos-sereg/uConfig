@@ -80,6 +80,8 @@
                 function pollerJob() {
                     document.app.services.backendService.getDeviceLogs(self.device.deviceID, function (logs) {
                         $('#console_logs').html(logs.map(function (logEntry) { return logEntry + '<br/>'; }));
+                        var consoleLogs = document.getElementById('console_logs');
+                        consoleLogs.scrollTop = consoleLogs.scrollHeight - consoleLogs.clientHeight;
                     });
                 }
 

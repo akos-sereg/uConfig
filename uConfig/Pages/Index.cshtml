@@ -5,6 +5,37 @@
 }
 
 <!-- ------------------------------------------------------------------------------------------------ -->
+<!-- Login Screen -->
+<!-- ------------------------------------------------------------------------------------------------ -->
+<div id="screen-login" class="login_form">
+    <table width="100%" cellpadding="10">
+        <tbody>
+
+            <tr>
+                <td>Username</td>
+                <td>
+                    <input id="login_username" type="text" class="form-control add_device_input" placeholder="Username" aria-label="Username" />
+                </td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td>
+                    <input id="login_password" type="password" class="form-control add_device_input" aria-label="Password" />
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button onclick="document.app.screens.loginScreen.login();" class="btn btn-primary btn-sm">Login</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+<!-- ------------------------------------------------------------------------------------------------ -->
 <!-- Devices Screen -->
 <!-- ------------------------------------------------------------------------------------------------ -->
 <div id="screen-devices">
@@ -133,7 +164,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
 
         </div>
         <div id="tab_pages_config_console">
@@ -190,15 +221,15 @@
 </template>
 
 <template id="sample_code_template">
-// this function is called once, when configs are fetched from remote server at the
-// first time. periodic updates are still running, and you can call uconfig_get_int_param
-// or uconfig_get_string_param later in your code to use the most recent values
-void configs_first_time_fetched() {
+    // this function is called once, when configs are fetched from remote server at the
+    // first time. periodic updates are still running, and you can call uconfig_get_int_param
+    // or uconfig_get_string_param later in your code to use the most recent values
+    void configs_first_time_fetched() {
     printf("Config values have been fetched from UConfig:\n");
-{getParamsCode}}
+    {getParamsCode}}
 
-void app_main()
-{
+    void app_main()
+    {
     // initialize wifi with uconfig library. as long as the device's wifi connection is
     // managed by uconfig, you can define primary and secondary wifi zones, so your device
     // will be portable without re-deploying
@@ -207,5 +238,5 @@ void app_main()
     // start polling for configs
     // device_id and api_key belong to a registered device on UConfig
     uconfig_start("{deviceId}", "{apiKey}", &configs_first_time_fetched, 60);
-}
+    }
 </template>
