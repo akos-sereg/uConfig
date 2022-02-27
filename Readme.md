@@ -2,6 +2,8 @@
 
 ## Docker commands
 
+### Building and deploying on localhost
+
 ```
 # build docker image
 $ docker build -t uconfig .
@@ -16,11 +18,20 @@ $ docker rm --force uconfig
 $ docker rm --force uconfig && docker build -t uconfig . && docker run -d -p 8080:80 --name uconfig uconfig
 ```
 
-# deploy
+### Deploy to Heroku
 
 $ heroku login
 $ heroku container:login
+$ docker build -t uconfig .
 $ heroku container:push -a uconfy web # from uconfig/uconfig, where Dockerfile sits
+$ heroku container:release -a uconfy web
+$ heroku logs --tail -a uconfy
+
+## Configuration for localhost/heroku
+
+- appsettings.json references the correct DB
+- js/app.js referencing the correct backend service
+- air sensor device is referencing the correct URL (192.168.1.10:8080)
 
 ## TODOs
 
@@ -45,6 +56,10 @@ $ heroku container:push -a uconfy web # from uconfig/uconfig, where Dockerfile s
   - Install swagger
   - End to end tests for Web API
   - rename all "uconfig" to "uconfy"
+- security
+  - jwt token secret to be read from config
+  - mysql connection string to be read from environment variables
+  - check what happens if jwt validation fails
 
 ## Use cases
 

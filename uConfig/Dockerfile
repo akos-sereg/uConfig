@@ -19,4 +19,5 @@ COPY --from=build-env /app/out .
 # Run the app on container startup
 # Use your project name for the second parameter
 # e.g. MyProject.dll
-ENTRYPOINT [ "dotnet", "uConfig.dll" ]
+# ENTRYPOINT [ "dotnet", "uConfig.dll" ]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet uConfig.dll

@@ -36,6 +36,9 @@ BackendService.prototype.registerDevice = function (device, onSuccess) {
         beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', self.token);
         },
+        success: function () {
+            onSuccess();
+        },
         error: function (xhr) {
 
             if (xhr.status != 201) {

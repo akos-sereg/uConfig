@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MySqlConnector;
+using System.Threading.Tasks;
 using uConfig.DTOs;
 using uConfig.Model;
 using uConfig.Services;
@@ -10,15 +12,21 @@ namespace uConfig.Controllers
     public class LoginController : ControllerBase
     {
         private AuthenticationService _authenticationService;
-        public LoginController()
+        public LoginController(MySqlConnection connection)
         {
-            _authenticationService = new AuthenticationService();
+            _authenticationService = new AuthenticationService(connection.ConnectionString);
         }
 
         [HttpPost]
-        public LoggedInUser Login(LoginRequest loginRequest)
+        public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
-            return _authenticationService.Login();
+            var user = await _authenticationService.Login(loginRequest.Username, loginRequest.Password);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(user);
         }
     }
 }
