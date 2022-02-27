@@ -32,7 +32,7 @@ namespace uConfig.Repository
             RegisteredDevices.Add(device);
         }
 
-        public bool IsDeviceAlreadyRegistered(Device device)
+        public async Task<bool> IsDeviceAlreadyRegistered(Device device)
         {
             int matchCount = RegisteredDevices.FindAll(registeredDevice => 
                 registeredDevice.UserID == device.UserID && registeredDevice.Name.Equals(device.Name)).Count;
@@ -40,12 +40,12 @@ namespace uConfig.Repository
             return matchCount > 0;
         }
 
-        public List<Device> GetDevices(int userId)
+        public async Task<List<Device>> GetDevices(int userId)
         {
             return RegisteredDevices.FindAll(device => device.UserID == userId);
         }
 
-        public Device GetDeviceById(Guid deviceId)
+        public async Task<Device> GetDeviceById(Guid deviceId)
         {
             return RegisteredDevices.Find(device => device.DeviceID.Equals(deviceId));
         }
@@ -66,13 +66,13 @@ namespace uConfig.Repository
 
         #region Device Config Management
 
-        public void CreateOrUpdateDeviceConfig(Guid deviceId, DeviceConfig deviceConfig)
+        public async Task CreateOrUpdateDeviceConfig(Guid deviceId, DeviceConfig deviceConfig)
         {
             DeviceConfigs.Remove(deviceId);
             DeviceConfigs.Add(deviceId, deviceConfig);
         }
 
-        public DeviceConfig GetDeviceConfig(Guid deviceId)
+        public async Task<DeviceConfig> GetDeviceConfig(Guid deviceId)
         {
             if (DeviceConfigs.ContainsKey(deviceId))
             {

@@ -11,11 +11,11 @@ namespace uConfig.Repository
         #region Device Management
         void RegisterDevice(Device device);
 
-        bool IsDeviceAlreadyRegistered(Device device);
+        Task<bool> IsDeviceAlreadyRegistered(Device device);
 
-        List<Device> GetDevices(int userId);
+        Task<List<Device>> GetDevices(int userId);
 
-        Device GetDeviceById(Guid deviceId);
+        Task<Device> GetDeviceById(Guid deviceId);
 
         void UpdateDevice(Device device);
 
@@ -25,9 +25,9 @@ namespace uConfig.Repository
 
         #region Device Config Management
 
-        void CreateOrUpdateDeviceConfig(Guid deviceId, DeviceConfig deviceConfig);
+        public Task CreateOrUpdateDeviceConfig(Guid deviceId, DeviceConfig deviceConfig);
 
-        DeviceConfig GetDeviceConfig(Guid deviceId);
+        Task<DeviceConfig> GetDeviceConfig(Guid deviceId);
 
         #endregion
     }

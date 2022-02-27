@@ -7,12 +7,12 @@ namespace uConfig.Repository
 {
     public interface IDeviceActivityRepository
     {
-        void RegisterDeviceCheckin(string deviceId);
+        Task RegisterDeviceCheckin(string deviceId, string endpoint);
 
-        DateTime? GetLastSeen(string deviceId);
+        Task<DateTime?> GetLastSeen(string deviceId);
 
-        void AppendLogs(string deviceId, string messages);
+        Task AppendLogs(string deviceId, string messages);
 
-        List<string> GetLogs(string deviceId);
+        Task<List<string>> GetLogs(string deviceId);
     }
 }

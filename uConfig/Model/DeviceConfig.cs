@@ -21,6 +21,11 @@ namespace uConfig.Model
             }
         }
 
+        public DeviceConfig()
+        {
+            this.Items = new List<DeviceConfigItem>();
+        }
+
         public string ToTextPlain()
         {
             StringBuilder result = new StringBuilder();

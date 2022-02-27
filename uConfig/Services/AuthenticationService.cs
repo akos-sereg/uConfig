@@ -13,6 +13,8 @@ namespace uConfig.Services
 {
     public class AuthenticationService
     {
+		private static string JWT_SECRET = "egy vegkep betort allat hatan, egy vegkep betort allat lovagol";
+
         public LoggedInUser Login()
         {
             return new LoggedInUser() { 
@@ -25,25 +27,7 @@ namespace uConfig.Services
 
 		public LoggedInUser GetLoggedInUser(string token)
 		{
-			Console.WriteLine("GetLoggedInUser: {0}", token);
-
-			/*var handler = new JwtSecurityTokenHandler();
-			var jsonToken = handler.ReadToken(token);
-			var tokenS = jsonToken as JwtSecurityToken;
-			
-			var email = tokenS.Claims.First(claim => claim.Type == ClaimTypes.Email).Value;
-			int userId = int.Parse(tokenS.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value);
-			var apiKey = tokenS.Claims.First(claim => claim.Type == ClaimTypes.Sid).Value;
-			return new LoggedInUser()
-			{
-				Email = email,
-				UserID = userId,
-				ApiKey = apiKey,
-				Token = token
-			};*/
-
-			string secret = "asdv2sdafsdf34234^&%&^%&^hjsdfb2%%%";
-			var key = Encoding.ASCII.GetBytes(secret);
+			var key = Encoding.ASCII.GetBytes(JWT_SECRET);
 			var handler = new JwtSecurityTokenHandler();
 			var validations = new TokenValidationParameters
 			{
@@ -63,10 +47,11 @@ namespace uConfig.Services
 
 		}
 
+	
+
 		public string GenerateToken(int userId)
 		{
-			var mySecret = "asdv2sdafsdf34234^&%&^%&^hjsdfb2%%%";
-			var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(mySecret));
+			var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JWT_SECRET));
 			var myIssuer = "http://mysite.com";
 			var myAudience = "http://myaudience.com";
 			var tokenHandler = new JwtSecurityTokenHandler();

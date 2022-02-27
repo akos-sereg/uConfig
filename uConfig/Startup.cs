@@ -1,8 +1,14 @@
+using ExceptionHandling.Middlewares;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MySqlConnector;
+using System;
+using System.Net;
 
 namespace uConfig
 {
@@ -20,6 +26,7 @@ namespace uConfig
         {
             services.AddRazorPages();
             services.AddControllers();
+            services.AddTransient<MySqlConnection>(_ => new MySqlConnection(Configuration["ConnectionStrings:Default"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,6 +35,7 @@ namespace uConfig
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // app.UseExceptionHandler("/Error");
             }
             else
             {
@@ -36,9 +44,33 @@ namespace uConfig
                 app.UseHsts();
             }
 
+            // app.UseMiddleware<ExceptionHandlingMiddleware>();
+            /*app.UseExceptionHandler(appError =>
+            {
+                appError.Run(async context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    context.Response.ContentType = "application/json";
+                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                    if (contextFeature != null)
+                    {
+                        Console.WriteLine($"Something went wrong: {contextFeature.Error}");
+                        // logger.LogError($"Something went wrong: {contextFeature.Error}");
+                        
+                    }
+                });
+            });*/
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseExceptionHandler(c => c.Run(async context =>
+            {
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+                await context.Response.WriteAsync(exception.Message);
+            }));
             app.UseRouting();
 
             app.UseAuthorization();
@@ -53,5 +85,7 @@ namespace uConfig
                 endpoints.MapControllers();
             });
         }
+
+        
     }
 }
