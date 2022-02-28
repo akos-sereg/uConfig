@@ -78,7 +78,7 @@ namespace uConfig.Repository
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                using var command = new MySqlCommand("SELECT log_message, inserted_at FROM device_log WHERE device_id = ?device_id ORDER BY inserted_at ASC LIMIT 0,150", connection);
+                using var command = new MySqlCommand("SELECT log_message, inserted_at FROM device_log WHERE device_id = ?device_id ORDER BY inserted_at DESC LIMIT 0,150", connection);
                 command.Parameters.Add("?device_id", MySqlDbType.VarChar).Value = deviceId;
 
                 using var reader = await command.ExecuteReaderAsync();
@@ -87,7 +87,7 @@ namespace uConfig.Repository
                 {
                     logs.Add("[" + reader.GetDateTime(reader.GetOrdinal("inserted_at")) + "] " + reader.GetString(reader.GetOrdinal("log_message")));
                 }
-
+                logs.Reverse();
                 return logs;
             }
         }

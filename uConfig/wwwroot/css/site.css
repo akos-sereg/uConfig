@@ -201,5 +201,10 @@
     border: solid 1px #bbbbbb;
     border-radius: 6px;
     margin-top: 120px;
-    padding: 60px;
+    padding: 20px;
+}
+
+.uconfy_logo {
+    font-weight: bold;
+    font-size: 32pt;
 }

@@ -39,7 +39,8 @@ $ heroku logs --tail -a uconfy
   - key constraint: should be max 15 length; verify on ui
   - make sure that device logs are XSS safe
   - Add validation: create devices, update device, add config key-value
-  - use rdbms instead of in-memory store
+  x use rdbms instead of in-memory store
+  - rename page title, add favicon
   - auth
     x make all endpoints api key protected
     x introduce JWT token
@@ -60,6 +61,8 @@ $ heroku logs --tail -a uconfy
   - jwt token secret to be read from config
   - mysql connection string to be read from environment variables
   - check what happens if jwt validation fails
+- tech debt
+  - remove old log items (eg. retain last 150 always for a device)
 
 ## Use cases
 
