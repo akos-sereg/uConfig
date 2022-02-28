@@ -12,5 +12,10 @@ LoginScreen.prototype.login = function () {
         // user is now logged in, we can fetch devices now
         document.app.screens.screenHandler.showScreen('devices');
         document.app.screens.devicesScreen.fetchDevices();
+
+        toastr["success"]("Logged in successfully.");
+    },
+    function () {
+        toastr["warning"]("Login failed, try with different credentials.");
     });
 }

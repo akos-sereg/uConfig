@@ -5,7 +5,7 @@
 // ---------------------------------------------------------------------------------
 // Login
 // ---------------------------------------------------------------------------------
-BackendService.prototype.login = function (loginData, onSuccess) {
+BackendService.prototype.login = function (loginData, onSuccess, onError) {
     var self = this;
     $.ajax({
         type: "POST",
@@ -13,16 +13,31 @@ BackendService.prototype.login = function (loginData, onSuccess) {
         data: JSON.stringify(loginData),
         success: function (response) {
             self.token = response.token;
+            localStorage.setItem('jwt_token', response.token);
             onSuccess(response);
         },
         error: function (xhr) {
-            console.error('Backend service call failure');
-            console.log(xhr);
+            onError();
         },
         dataType: 'json',
         contentType: "application/json"
     });
-}
+};
+
+BackendService.prototype.validateJwt = function (jwtToken, onSuccess) {
+    var self = this;
+    $.ajax({
+        type: "POST",
+        url: document.app.getConfig().apiUrl + '/login/jwt',
+        data: JSON.stringify({ JwtToken: jwtToken }),
+        success: function (response) {
+            self.token = jwtToken;
+            onSuccess(response);
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+};
 
 // ---------------------------------------------------------------------------------
 // Device

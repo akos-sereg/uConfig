@@ -40,11 +40,12 @@ $ heroku logs --tail -a uconfy
   - make sure that device logs are XSS safe
   - Add validation: create devices, update device, add config key-value
   x use rdbms instead of in-memory store
-  - rename page title, add favicon
+  x rename page title, add favicon
   - auth
     x make all endpoints api key protected
     x introduce JWT token
     - handle incorrect login
+    - auto login after page refresh if session is alive
 - features
   - device-already-read indicator
   - show microcontroller data (cpu, memory, etc)

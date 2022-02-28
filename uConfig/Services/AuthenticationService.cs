@@ -66,7 +66,6 @@ namespace uConfig.Services
 			}
 		}
 
-		
 		private async Task<LoggedInUser> AuthenticateWithApiKey(string apiKey)
         {
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -94,7 +93,7 @@ namespace uConfig.Services
 			}
 		}
 
-		private LoggedInUser AuthenticateWithJwt(string token)
+		public LoggedInUser AuthenticateWithJwt(string token)
         {
 			try
             {
