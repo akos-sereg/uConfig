@@ -22,16 +22,16 @@
 App.prototype.getConfig = function () {
     return {
         // apiUrl: 'http://127.0.0.1:8080/api',
-        apiUrl: 'https://uconfy.herokuapp.com/api',
+        // apiUrl: 'https://uconfy.herokuapp.com/api',
+        apiUrl: '/api',
         consoleLogPollInterval: 10, // seconds
         detailsPollInterval: 10, // seconds
     };
 }
 
 App.prototype.init = function () {
-    var self = this;
-
-    // default screen
-    this.screens.screenHandler.showScreen('login');
+    this.screens.loginScreen.init();
     this.screens.devicesScreen.init();
+
+    this.screens.screenHandler.showScreen('login');
 }

@@ -2,6 +2,14 @@
     this.name = 'login';
 }
 
+LoginScreen.prototype.init = function () {
+    $('#login_password').on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            document.app.screens.loginScreen.login();
+        }
+    });
+}
+
 LoginScreen.prototype.login = function () {
     var username = $('#login_username').val();
     var password = $('#login_password').val();
@@ -10,8 +18,14 @@ LoginScreen.prototype.login = function () {
         document.app.state.loggedInUser = loggedInUser;
 
         // user is now logged in, we can fetch devices now
-        document.app.screens.screenHandler.showScreen('devices');
-        document.app.screens.devicesScreen.fetchDevices();
+        $("#screen-login").effect('fade', {}, 1000, function () {
+            $("#screen-login").hide();
+        });
+        setTimeout(function () {
+            document.app.screens.screenHandler.showScreen('devices');
+            document.app.screens.devicesScreen.fetchDevices();
+        }, 1000);
+        
 
         toastr["success"]("Logged in successfully.");
     },

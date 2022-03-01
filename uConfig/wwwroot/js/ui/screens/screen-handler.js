@@ -22,8 +22,15 @@ ScreenHandler.prototype.showScreen = function (screenName, context) {
             if (jwtToken) {
                 document.app.services.backendService.validateJwt(jwtToken, function (loggedInUser) {
                     document.app.state.loggedInUser = loggedInUser;
-                    document.app.screens.screenHandler.showScreen('devices');
-                    document.app.screens.devicesScreen.fetchDevices();
+
+                    $("#screen-login").effect('fade', {}, 1000, function () {
+                        $("#screen-login").hide();
+                    });
+                    setTimeout(function () {
+                        document.app.screens.screenHandler.showScreen('devices');
+                        document.app.screens.devicesScreen.fetchDevices();
+                    }, 1000);
+                    
                 });
             }
             break;

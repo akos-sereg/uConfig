@@ -44,8 +44,9 @@ $ heroku logs --tail -a uconfy
   - auth
     x make all endpoints api key protected
     x introduce JWT token
-    - handle incorrect login
-    - auto login after page refresh if session is alive
+    x handle incorrect login
+    x auto login after page refresh if session is alive
+    - check login issue
 - features
   - device-already-read indicator
   - show microcontroller data (cpu, memory, etc)
@@ -62,6 +63,7 @@ $ heroku logs --tail -a uconfy
   - jwt token secret to be read from config
   - mysql connection string to be read from environment variables
   - check what happens if jwt validation fails
+  - logout: clear jwt from local storage, and invalidate on service
 - tech debt
   - remove old log items (eg. retain last 150 always for a device)
 

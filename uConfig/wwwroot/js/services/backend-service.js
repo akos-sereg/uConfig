@@ -12,6 +12,7 @@ BackendService.prototype.login = function (loginData, onSuccess, onError) {
         url: document.app.getConfig().apiUrl + '/login',
         data: JSON.stringify(loginData),
         success: function (response) {
+            console.log(response);
             self.token = response.token;
             localStorage.setItem('jwt_token', response.token);
             onSuccess(response);
@@ -24,7 +25,7 @@ BackendService.prototype.login = function (loginData, onSuccess, onError) {
     });
 };
 
-BackendService.prototype.validateJwt = function (jwtToken, onSuccess) {
+BackendService.prototype.validateJwt = function (jwtToken, onSuccess, onError) {
     var self = this;
     $.ajax({
         type: "POST",
