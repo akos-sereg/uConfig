@@ -7,6 +7,11 @@
 <div class="center">
     <div style="width: 920px;">
 
+        <nav id="app_navbar" class="nav nav-pills flex-column flex-sm-row">
+            <a class="flex-sm-fill text-sm-center nav-link" href="/#">Home</a>
+            <a class="flex-sm-fill text-sm-center nav-link" href="/#" onclick="document.app.screens.loginScreen.logout(event);">Logout</a>
+        </nav>
+
         <!-- ------------------------------------------------------------------------------------------------ -->
         <!-- Login Screen -->
         <!-- ------------------------------------------------------------------------------------------------ -->
@@ -53,6 +58,7 @@
         <!-- Devices Screen -->
         <!-- ------------------------------------------------------------------------------------------------ -->
         <div id="screen-devices">
+
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">Devices</li>
@@ -101,6 +107,7 @@
         <!-- ------------------------------------------------------------------------------------------------ -->
 
         <div id="screen-configuration">
+
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#" onclick="document.app.screens.screenHandler.showScreen('devices');">Devices</a></li>
@@ -237,25 +244,25 @@
         <template id="sample_code_template">
 
             void uconfy_configurations_fetched() {
-                printf("Configurations successfully fetched from remote server\n");
-{getParamsCode}
+            printf("Configurations successfully fetched from remote server\n");
+            {getParamsCode}
             }
 
             void wifi_connected() {
-                printf("Connected to Wifi network. Now we can fetch configs.\n");
-                uconfy_fetch_configs(&uconfy_configurations_fetched);
+            printf("Connected to Wifi network. Now we can fetch configs.\n");
+            uconfy_fetch_configs(&uconfy_configurations_fetched);
             }
 
 
             void app_main()
             {
-                uconfy_load_from_nvs();
-                uconfy_initialize_wifi(
-                    uconfig_get_string_param("primary_wifi", "{your-wifi-ssid}"),
-                    uconfig_get_string_param("primary_pwd", "{your-wifi-password}"),
-                    &wifi_connected
-                );
-                uconfig_init("{deviceId}", "{apiKey}");
+            uconfy_load_from_nvs();
+            uconfy_initialize_wifi(
+            uconfig_get_string_param("primary_wifi", "{your-wifi-ssid}"),
+            uconfig_get_string_param("primary_pwd", "{your-wifi-password}"),
+            &wifi_connected
+            );
+            uconfig_init("{deviceId}", "{apiKey}");
             }
         </template>
 

@@ -12,6 +12,7 @@ ScreenHandler.prototype.showScreen = function (screenName, context) {
     });
 
     $('#screen-' + screenName).show();
+    $('#app_navbar').hide();
     this.context = context;
 
     console.log('[screen] Changed to "' + screenName + '" with context: ' + context);
@@ -35,8 +36,10 @@ ScreenHandler.prototype.showScreen = function (screenName, context) {
             }
             break;
         case 'devices':
+            $('#app_navbar').show();
             break;
         case 'configuration':
+            $('#app_navbar').show();
             document.app.screens.configurationScreen.device =
                 document.app.state.devices.find(function (device) { return device.deviceID == context });
             document.app.screens.configurationScreen.load();

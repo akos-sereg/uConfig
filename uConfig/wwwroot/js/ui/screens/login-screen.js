@@ -10,6 +10,12 @@ LoginScreen.prototype.init = function () {
     });
 }
 
+LoginScreen.prototype.logout = function (e) {
+    localStorage.removeItem('jwt_token');
+    document.location.href = '/';
+    e.preventDefault();
+}
+
 LoginScreen.prototype.login = function () {
     var username = $('#login_username').val();
     var password = $('#login_password').val();
