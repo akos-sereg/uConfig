@@ -23,13 +23,8 @@
 <body>
     <body>
 
-        <div class="center">
-            <div style="width: 920px;">
-                @RenderBody()
-            </div>
-        </div>
-
-
+        @RenderBody()
+        
 
         <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -49,8 +44,11 @@
 
         <script>
             $(document).ready(function () {
-                document.app = new App();
-                document.app.init();
+                if (document.location.href.indexOf('/app') != -1) {
+                    document.app = new App();
+                    document.app.init();
+                }
+                
             });
         </script>
     </body>

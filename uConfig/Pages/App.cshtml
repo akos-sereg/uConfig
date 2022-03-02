@@ -1,0 +1,264 @@
+﻿@page "/app"
+@model IndexModel
+@{
+    ViewData["Title"] = "App";
+}
+
+<div class="center">
+    <div style="width: 920px;">
+
+        <!-- ------------------------------------------------------------------------------------------------ -->
+        <!-- Login Screen -->
+        <!-- ------------------------------------------------------------------------------------------------ -->
+        <div id="screen-login" class="login_form">
+            <script language="text/javascript">
+                function handleSubmit(e) {
+                    if (e.keyCode == 13) {
+                        e.preventDefault();
+                        document.app.screens.loginScreen.login();
+                    }
+                }
+            </script>
+            <img src="/images/ucontroller-small.png" width="80" />
+            <span class="uconfy_logo">&micro;Confy</span>
+
+            <table width="100%" cellpadding="10">
+                <tbody>
+
+                    <tr>
+                        <td>Email</td>
+                        <td>
+                            <input id="login_username" type="text" class="form-control add_device_input" placeholder="Email" aria-label="Email" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>
+                            <input id="login_password" type="password" class="form-control add_device_input" placeholder="Password" aria-label="Password" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <button onclick="document.app.screens.loginScreen.login();" class="btn btn-primary btn-sm">Login</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- ------------------------------------------------------------------------------------------------ -->
+        <!-- Devices Screen -->
+        <!-- ------------------------------------------------------------------------------------------------ -->
+        <div id="screen-devices">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">Devices</li>
+                </ol>
+            </nav>
+
+            <a href="#" id="add_device_link" onclick="document.app.screens.devicesScreen.addDeviceForm.toggle();">&gt; Add new device ...</a>
+            <div id="add_device_container">
+                <h2>Add new Device</h2>
+                <table class="add_device_table" cellpadding="10">
+                    <tbody>
+
+                        <tr>
+                            <td>Name</td>
+                            <td>
+                                <input id="add_device_name" type="text" class="form-control add_device_input" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Platform</td>
+                            <td>
+                                <input id="add_device_platform" type="text" class="form-control add_device_input" placeholder="Eg. ESP32, or Arduino" aria-label="Platform" aria-describedby="basic-addon1" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <button onclick="document.app.screens.devicesScreen.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="registered-device-list" class="registered_device_list"></div>
+
+            <div id="add_device_none_yet" class="alert alert-secondary" role="alert">
+                There is no device added yet.
+            </div>
+
+        </div>
+
+        <!-- ------------------------------------------------------------------------------------------------ -->
+        <!-- Configuration Screen -->
+        <!-- ------------------------------------------------------------------------------------------------ -->
+
+        <div id="screen-configuration">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#" onclick="document.app.screens.screenHandler.showScreen('devices');">Devices</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Configuration</li>
+                </ol>
+            </nav>
+
+            <h1>Configuration</h1>
+
+            <div id="tab_pages_configuration">
+                <div id="tab_pages_config_nav"></div>
+                <div id="tab_pages_config_details">
+
+                    <div class="alert alert-warning" id="device_not_connected" role="alert">
+                        Device is not connected. Navigate to Access tab to see how you can configure your device to use UConfig.
+                    </div>
+
+                    <div class="alert alert-success" id="device_connected" role="alert">
+                        Device fetched configs <span class="device_last_seen"></span> seconds ago.
+                    </div>
+
+                    <form>
+                        <div class="form-group">
+                            <label for="config_device_name">Name</label>
+                            <input type="text" class="form-control" id="config_device_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="config_device_platform">Platform</label>
+                            <input type="text" class="form-control" id="config_device_platform">
+                        </div>
+
+                        <button onclick="document.app.screens.configurationScreen.updateDevice();" type="submit" class="btn btn-primary">Update</button>
+                        <button onclick="document.app.screens.configurationScreen.deleteDevice();" type="submit" class="btn btn-danger">Delete</button>
+
+                    </form>
+
+                </div>
+                <div id="tab_pages_config_access">
+
+                    <form>
+                        <div class="form-group row">
+                            <label for="config_access_device_id" class="col-sm-2 col-form-label">Device ID</label>
+                            <div class="col-sm-10">
+                                <input id="config_access_device_id" value="" class="form-control" type="text" readonly>
+                                <small class="form-text text-muted">You need this identifier to fetch configs from your device.</small>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">API Key</label>
+                            <div class="col-sm-10">
+                                <input id="config_access_apikey" value="" class="form-control" type="text" readonly>
+                                <small class="form-text text-muted">If you rotate the API key, your device will no longer be available to access with the old key. You will need to re-deploy your code to the device with the new API key.</small>
+                                <button class="btn btn-sm btn-danger">Rotate</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <h3>Sample code for Espressif ESP32</h3>
+                    <pre id="sample_code">
+            </pre>
+
+                </div>
+                <div id="tab_pages_config_params">
+
+                    <div id="config_list_div_container">
+                        <table class="table config_list_container">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Config Key</th>
+                                    <th scope="col">Value</th>
+                                    <th scope="col">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody id="config_list_container_tbody">
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+                <div id="tab_pages_config_console">
+                    <div id="console_logs">
+
+                    </div>
+                </div>
+                <div id="tab_pages_config_activity">
+                    <i>Not implemented yet.</i>
+                </div>
+            </div>
+        </div>
+
+        <!-- ------------------------------------------------------------------------------------------------ -->
+        <!-- Templates -->
+        <!-- ------------------------------------------------------------------------------------------------ -->
+
+        <template id="registered-device-template">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" id="device-card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a id="configure_device_btn" onclick="document.app.screens.screenHandler.showScreen('configuration', '{deviceId}');" href="#" class="btn btn-primary">Configure</a>
+                </div>
+            </div>
+        </template>
+
+        <template id="tab_item_template">
+            <span onclick="[tabComponent].switch('{tabId}');" data-tab-id="[tabId]" class="tab_item"></span>
+        </template>
+
+        <template id="config_key_value">
+            <tr>
+                <td id="config_kv_template_key"></td>
+                <td id="config_kv_template_value"></td>
+                <td>
+                    <a id="config_kv_template_remove" href="#" onclick="document.app.screens.configurationScreen.deleteConfigItem('{configKey}');">remove</a>
+                </td>
+            </tr>
+        </template>
+
+        <template id="config_key_value_add">
+            <tr>
+                <td>
+                    <input id="config_add_key" value="" maxlength="15" class="form-control" type="text">
+                </td>
+                <td>
+                    <input id="config_add_value" value="" class="form-control" type="text">
+                </td>
+                <td>
+                    <button onclick="document.app.screens.configurationScreen.addConfigItemForm.submit();" class="btn btn-primary">add</button>
+                </td>
+            </tr>
+        </template>
+
+        <template id="sample_code_template">
+
+            void uconfy_configurations_fetched() {
+                printf("Configurations successfully fetched from remote server\n");
+{getParamsCode}
+            }
+
+            void wifi_connected() {
+                printf("Connected to Wifi network. Now we can fetch configs.\n");
+                uconfy_fetch_configs(&uconfy_configurations_fetched);
+            }
+
+
+            void app_main()
+            {
+                uconfy_load_from_nvs();
+                uconfy_initialize_wifi(
+                    uconfig_get_string_param("primary_wifi", "{your-wifi-ssid}"),
+                    uconfig_get_string_param("primary_pwd", "{your-wifi-password}"),
+                    &wifi_connected
+                );
+                uconfig_init("{deviceId}", "{apiKey}");
+            }
+        </template>
+
+
+    </div>
+</div>

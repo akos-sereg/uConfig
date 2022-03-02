@@ -1,253 +1,151 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Index";
 }
 
-<!-- ------------------------------------------------------------------------------------------------ -->
-<!-- Login Screen -->
-<!-- ------------------------------------------------------------------------------------------------ -->
-<div id="screen-login" class="login_form">
-    <script language="text/javascript">
-        function handleSubmit(e) {
-            if (e.keyCode == 13) {
-                e.preventDefault();
-                document.app.screens.loginScreen.login();
-            }
-        }
-    </script>
-    <img src="/images/ucontroller-small.png" width="80" />
-    <span class="uconfy_logo">&micro;Confy</span>
-    
-    <table width="100%" cellpadding="10">
-        <tbody>
+<link href="~/css/index.css" rel="stylesheet">
 
-            <tr>
-                <td>Email</td>
-                <td>
-                    <input id="login_username" type="text" class="form-control add_device_input" placeholder="Email" aria-label="Email" />
-                </td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td>
-                    <input id="login_password" type="password" class="form-control add_device_input" placeholder="Password" aria-label="Password" />
-                </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                    <button onclick="document.app.screens.loginScreen.login();" class="btn btn-primary btn-sm">Login</button>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-
-</div>
-
-<!-- ------------------------------------------------------------------------------------------------ -->
-<!-- Devices Screen -->
-<!-- ------------------------------------------------------------------------------------------------ -->
-<div id="screen-devices">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Devices</li>
-        </ol>
-    </nav>
-
-    <a href="#" id="add_device_link" onclick="document.app.screens.devicesScreen.addDeviceForm.toggle();">&gt; Add new device ...</a>
-    <div id="add_device_container">
-        <h2>Add new Device</h2>
-        <table class="add_device_table" cellpadding="10">
-            <tbody>
-
-                <tr>
-                    <td>Name</td>
-                    <td>
-                        <input id="add_device_name" type="text" class="form-control add_device_input" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Platform</td>
-                    <td>
-                        <input id="add_device_platform" type="text" class="form-control add_device_input" placeholder="Eg. ESP32, or Arduino" aria-label="Platform" aria-describedby="basic-addon1" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>
-                        <button onclick="document.app.screens.devicesScreen.submitNewDevice();" class="btn btn-primary btn-sm">Add</button>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-    </div>
-
-    <div id="registered-device-list" class="registered_device_list"></div>
-
-    <div id="add_device_none_yet" class="alert alert-secondary" role="alert">
-        There is no device added yet.
-    </div>
-
-</div>
-
-<!-- ------------------------------------------------------------------------------------------------ -->
-<!-- Configuration Screen -->
-<!-- ------------------------------------------------------------------------------------------------ -->
-
-<div id="screen-configuration">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#" onclick="document.app.screens.screenHandler.showScreen('devices');">Devices</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Configuration</li>
-        </ol>
-    </nav>
-
-    <h1>Configuration</h1>
-
-    <div id="tab_pages_configuration">
-        <div id="tab_pages_config_nav"></div>
-        <div id="tab_pages_config_details">
-
-            <div class="alert alert-warning" id="device_not_connected" role="alert">
-                Device is not connected. Navigate to Access tab to see how you can configure your device to use UConfig.
-            </div>
-
-            <div class="alert alert-success" id="device_connected" role="alert">
-                Device fetched configs <span class="device_last_seen"></span> seconds ago.
-            </div>
-
-            <form>
-                <div class="form-group">
-                    <label for="config_device_name">Name</label>
-                    <input type="text" class="form-control" id="config_device_name">
-                </div>
-                <div class="form-group">
-                    <label for="config_device_platform">Platform</label>
-                    <input type="text" class="form-control" id="config_device_platform">
-                </div>
-
-                <button onclick="document.app.screens.configurationScreen.updateDevice();" type="submit" class="btn btn-primary">Update</button>
-                <button onclick="document.app.screens.configurationScreen.deleteDevice();" type="submit" class="btn btn-danger">Delete</button>
-
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <img src="/images/ucontroller-small.png" width="80" /><span class="uconfy_logo uconfy_logo_white">&micro;Confy</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <button onclick="document.location.href = '/app'; event.preventDefault();" class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
             </form>
-
         </div>
-        <div id="tab_pages_config_access">
+    </nav>
+</header>
 
-            <form>
-                <div class="form-group row">
-                    <label for="config_access_device_id" class="col-sm-2 col-form-label">Device ID</label>
-                    <div class="col-sm-10">
-                        <input id="config_access_device_id" value="" class="form-control" type="text" readonly>
-                        <small class="form-text text-muted">You need this identifier to fetch configs from your device.</small>
+<main role="main">
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="First slide">
+                <div class="container">
+                    <div class="carousel-caption text-left">
+                        <h1>Logging</h1>
+                        <p>You can send logs from your &micro;Controller to &micro;Confy, which gives you a better debugging experience.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="staticEmail" class="col-sm-2 col-form-label">API Key</label>
-                    <div class="col-sm-10">
-                        <input id="config_access_apikey" value="" class="form-control" type="text" readonly>
-                        <small class="form-text text-muted">If you rotate the API key, your device will no longer be available to access with the old key. You will need to re-deploy your code to the device with the new API key.</small>
-                        <button class="btn btn-sm btn-danger">Rotate</button>
+            </div>
+            <div class="carousel-item">
+                <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Configuration</h1>
+                        <p>Your &micro;Controller device can fetch config variables from &micro;Confy, so that you can re-configure your &micro;Controller device without re-deploying your code.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
                     </div>
                 </div>
-            </form>
-
-            <h3>Sample code for Espressif ESP32</h3>
-            <pre id="sample_code">
-            </pre>
-
-        </div>
-        <div id="tab_pages_config_params">
-
-            <div id="config_list_div_container">
-                <table class="table config_list_container">
-                    <thead>
-                        <tr>
-                            <th scope="col">Config Key</th>
-                            <th scope="col">Value</th>
-                            <th scope="col">&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody id="config_list_container_tbody">
-                    </tbody>
-                </table>
             </div>
-
-
-        </div>
-        <div id="tab_pages_config_console">
-            <div id="console_logs">
-
+            <div class="carousel-item">
+                <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
+                <div class="container">
+                    <div class="carousel-caption text-right">
+                        <h1>Diagnostics</h1>
+                        <p>Your &micro;Controller device can send diagnostics data to &micro;Confy, so that you can monitor your device's health.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="tab_pages_config_activity">
-            <i>Not implemented yet.</i>
-        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-</div>
 
-<!-- ------------------------------------------------------------------------------------------------ -->
-<!-- Templates -->
-<!-- ------------------------------------------------------------------------------------------------ -->
 
-<template id="registered-device-template">
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title" id="device-card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a id="configure_device_btn" onclick="document.app.screens.screenHandler.showScreen('configuration', '{deviceId}');" href="#" class="btn btn-primary">Configure</a>
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                <h2>Heading</h2>
+                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                <h2>Heading</h2>
+                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                <h2>Heading</h2>
+                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
         </div>
-    </div>
-</template>
 
-<template id="tab_item_template">
-    <span onclick="[tabComponent].switch('{tabId}');" data-tab-id="[tabId]" class="tab_item"></span>
-</template>
+        <hr class="featurette-divider">
 
-<template id="config_key_value">
-    <tr>
-        <td id="config_kv_template_key"></td>
-        <td id="config_kv_template_value"></td>
-        <td>
-            <a id="config_kv_template_remove" href="#" onclick="document.app.screens.configurationScreen.deleteConfigItem('{configKey}');">remove</a>
-        </td>
-    </tr>
-</template>
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div>
 
-<template id="config_key_value_add">
-    <tr>
-        <td>
-            <input id="config_add_key" value="" maxlength="15" class="form-control" type="text">
-        </td>
-        <td>
-            <input id="config_add_value" value="" class="form-control" type="text">
-        </td>
-        <td>
-            <button onclick="document.app.screens.configurationScreen.addConfigItemForm.submit();" class="btn btn-primary">add</button>
-        </td>
-    </tr>
-</template>
+        <hr class="featurette-divider">
 
-<template id="sample_code_template">
-    // this function is called once, when configs are fetched from remote server at the
-    // first time. periodic updates are still running, and you can call uconfig_get_int_param
-    // or uconfig_get_string_param later in your code to use the most recent values
-    void configs_first_time_fetched() {
-    printf("Config values have been fetched from UConfig:\n");
-    {getParamsCode}}
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div>
 
-    void app_main()
-    {
-    // initialize wifi with uconfig library. as long as the device's wifi connection is
-    // managed by uconfig, you can define primary and secondary wifi zones, so your device
-    // will be portable without re-deploying
-    uconfig_initialize_wifi("{your-wifi-ssid}", "{your-wifi-password}");
+        <hr class="featurette-divider">
 
-    // start polling for configs
-    // device_id and api_key belong to a registered device on UConfig
-    uconfig_start("{deviceId}", "{apiKey}", &configs_first_time_fetched, 60);
-    }
-</template>
+        <!-- /END THE FEATURETTES -->
+
+    </div><!-- /.container -->
+    <!-- FOOTER -->
+    <footer class="container">
+        <p class="float-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2017-2018 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    </footer>
+</main>
