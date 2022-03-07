@@ -22,17 +22,17 @@ namespace uConfig.Repository
             {
                 await connection.OpenAsync();
 
-                var insertCommand = new MySqlCommand("DELETE FROM device_config_item WHERE device_id = ?device_id", connection);
-                insertCommand.Parameters.Add("?device_id", MySqlDbType.VarChar).Value = deviceId.ToString();
-                await insertCommand.ExecuteNonQueryAsync();
+                var deleteCommand = new MySqlCommand("DELETE FROM device_config_item WHERE device_id = ?device_id", connection);
+                deleteCommand.Parameters.Add("?device_id", MySqlDbType.VarChar).Value = deviceId.ToString();
+                await deleteCommand.ExecuteNonQueryAsync();
 
                 for (int i=0; i!=deviceConfig.Items.Count; i++)
                 {
-                    insertCommand = new MySqlCommand("INSERT INTO device_config_item (device_id, config_key, config_value) VALUES (?device_id, ?config_key, ?config_value)", connection);
-                    insertCommand.Parameters.Add("?device_id", MySqlDbType.VarChar).Value = deviceId.ToString();
-                    insertCommand.Parameters.Add("?config_key", MySqlDbType.VarChar).Value = deviceConfig.Items[i].Key;
-                    insertCommand.Parameters.Add("?config_value", MySqlDbType.VarChar).Value = deviceConfig.Items[i].Value;
-                    await insertCommand.ExecuteNonQueryAsync();
+                    deleteCommand = new MySqlCommand("INSERT INTO device_config_item (device_id, config_key, config_value) VALUES (?device_id, ?config_key, ?config_value)", connection);
+                    deleteCommand.Parameters.Add("?device_id", MySqlDbType.VarChar).Value = deviceId.ToString();
+                    deleteCommand.Parameters.Add("?config_key", MySqlDbType.VarChar).Value = deviceConfig.Items[i].Key;
+                    deleteCommand.Parameters.Add("?config_value", MySqlDbType.VarChar).Value = deviceConfig.Items[i].Value;
+                    await deleteCommand.ExecuteNonQueryAsync();
                 }
             }
         }
@@ -42,9 +42,9 @@ namespace uConfig.Repository
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                var insertCommand = new MySqlCommand("DELETE FROM device WHERE id = ?id", connection);
-                insertCommand.Parameters.Add("?id", MySqlDbType.VarChar).Value = deviceId.ToString();
-                await insertCommand.ExecuteNonQueryAsync();
+                var deleteCommand = new MySqlCommand("DELETE FROM device WHERE id = ?id", connection);
+                deleteCommand.Parameters.Add("?id", MySqlDbType.VarChar).Value = deviceId.ToString();
+                await deleteCommand.ExecuteNonQueryAsync();
             }
         }
 
@@ -153,11 +153,11 @@ namespace uConfig.Repository
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                var insertCommand = new MySqlCommand("UPDATE device SET name = ?name, platform = ?platform WHERE id = ?id", connection);
-                insertCommand.Parameters.Add("?id", MySqlDbType.VarChar).Value = device.DeviceID.ToString();
-                insertCommand.Parameters.Add("?name", MySqlDbType.VarChar).Value = device.Name;
-                insertCommand.Parameters.Add("?platform", MySqlDbType.VarChar).Value = device.Platform;
-                await insertCommand.ExecuteNonQueryAsync();
+                var updateCommand = new MySqlCommand("UPDATE device SET name = ?name, platform = ?platform WHERE id = ?id", connection);
+                updateCommand.Parameters.Add("?id", MySqlDbType.VarChar).Value = device.DeviceID.ToString();
+                updateCommand.Parameters.Add("?name", MySqlDbType.VarChar).Value = device.Name;
+                updateCommand.Parameters.Add("?platform", MySqlDbType.VarChar).Value = device.Platform;
+                await updateCommand.ExecuteNonQueryAsync();
             }
         }
     }

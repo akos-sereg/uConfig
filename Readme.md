@@ -36,6 +36,10 @@ $ heroku logs --tail -a uconfy
 ## TODOs
 
 - go live requirements
+  - documentation
+  - activity tab
+  - rotate api key
+  - device card
   - key constraint: should be max 15 length; verify on ui
   - make sure that device logs are XSS safe
   - Add validation: create devices, update device, add config key-value
@@ -48,6 +52,7 @@ $ heroku logs --tail -a uconfy
     x auto login after page refresh if session is alive
     - check login issue
 - features
+  - control device: send restart command
   - device-already-read indicator
   - show microcontroller data (cpu, memory, etc)
   - device instance based on MAC address
@@ -59,7 +64,10 @@ $ heroku logs --tail -a uconfy
   - Install swagger
   - End to end tests for Web API
   - rename all "uconfig" to "uconfy"
+  - Console.WriteLine to logger
 - security
+  - validate email
+  - force https
   - jwt token secret to be read from config
   - mysql connection string to be read from environment variables
   - check what happens if jwt validation fails

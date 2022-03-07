@@ -82,21 +82,21 @@
         <!-- Three columns of text below the carousel -->
         <div class="row">
             <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+                <img class="rounded-circle" src="~/images/plus-flat.png" alt="Generic placeholder image" width="140" height="140">
+                <h2>Register</h2>
+                <p>Register your device on &micro;Confy - you will receive a DeviceID &amp; API Key pair that is unique to your microcontroller based device.</p>
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+                <img class="rounded-circle" src="~/images/firmware-icon.png" alt="Generic placeholder image" width="140" height="140">
+                <h2>Deploy</h2>
+                <p>Upgrade your microcontroller's code, use &micro;Confy lib and deploy it to your device.</p>
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <img class="rounded-circle" src="~/images/terminal.png" alt="Generic placeholder image" width="140" height="140">
+                <h2>Monitor</h2>
+                <p>Check the logs, diagnostics, telemetry of your device on &micro;Confy.</p>
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
@@ -106,11 +106,17 @@
 
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading">Motivation: <span class="text-muted">Configuring Primary and Fallback wifi.</span></h2>
+                <p class="lead">
+                    I wanted to make sure that my microcontroller-based devices are portable and can be used in <b>different wifi zones</b> (eg. moving to
+                    another flat), without the need of re-deploying firmware. So I created this web app where I can register my devices
+                    and manage their configurations. My devices' wifi connections are being managed by &micro;Confy library, which allows
+                    the devices to use pre-defined wifi zones. As a result, I <b>do not have to touch</b> the embedded software once my device
+                    is created.
+                </p>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                <img class="featurette-image img-fluid mx-auto" src="~/images/moving.png" width="200" alt="Moving the device to different wifi zone">
             </div>
         </div>
 
@@ -118,19 +124,24 @@
 
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading">Monitoring your device. <span class="text-muted">Feed logs into &micro;Confy.</span></h2>
+                <p class="lead">
+                    If your microcontroller-based device has wifi access, it makes sense to feed logs into &micro;Confy. This way you can
+                    always take a look into your device's internal behaviour, which makes debugging easier. Eg. you do not have to connect your device
+                    with your computer to debug it via wire (usb cable).
+                </p>
             </div>
             <div class="col-md-5 order-md-1">
-                <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                <img class="featurette-image img-fluid mx-auto" src="~/images/monitoring.png" width="200" alt="Logging">
             </div>
         </div>
 
         <hr class="featurette-divider">
 
+        <!--
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+                <h2 class="featurette-heading"> <span class="text-muted">Checkmate.</span></h2>
                 <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
             </div>
             <div class="col-md-5">
@@ -140,12 +151,13 @@
 
         <hr class="featurette-divider">
 
+        -->
         <!-- /END THE FEATURETTES -->
 
     </div><!-- /.container -->
     <!-- FOOTER -->
     <footer class="container">
         <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2017-2018 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        <p>&copy; 2022 &micro;Confy</p>
     </footer>
 </main>

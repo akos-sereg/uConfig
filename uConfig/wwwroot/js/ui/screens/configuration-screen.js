@@ -51,13 +51,20 @@
 
                 function pollerJob() {
                     document.app.services.backendService.getDeviceActivity(self.device.deviceID, function (lastSeenInSeconds) {
-                        if (lastSeenInSeconds == -1) {
+                        if (lastSeenInSeconds > document.app.getConfig().deviceInactiveInterval) {
+                            $('.device_last_seen_days').html(Math.floor(lastSeenInSeconds / 84600));
+                            $('#device_seen_long_while_ago').show();
+                            $('#device_connected').hide();
+                            $('#device_not_connected').hide();
+                        } else if (lastSeenInSeconds == -1) {
                             $('#device_not_connected').show();
                             $('#device_connected').hide();
+                            $('#device_seen_long_while_ago').hide();
                         } else {
                             $('.device_last_seen').html(lastSeenInSeconds);
                             $('#device_connected').show();
                             $('#device_not_connected').hide();
+                            $('#device_seen_long_while_ago').hide();
                         }
                     });
                 }
@@ -105,6 +112,7 @@ ConfigurationScreen.prototype.load = function () {
     // details tab
     $('#config_device_name').val(this.device.name);
     $('#config_device_platform').val(this.device.platform);
+    $('#device_seen_long_while_ago').hide();
     $('#device_not_connected').hide();
     $('#device_connected').hide();
 

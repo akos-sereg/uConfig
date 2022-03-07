@@ -12,7 +12,6 @@ BackendService.prototype.login = function (loginData, onSuccess, onError) {
         url: document.app.getConfig().apiUrl + '/login',
         data: JSON.stringify(loginData),
         success: function (response) {
-            console.log(response);
             self.token = response.token;
             localStorage.setItem('jwt_token', response.token);
             onSuccess(response);
@@ -25,7 +24,7 @@ BackendService.prototype.login = function (loginData, onSuccess, onError) {
     });
 };
 
-BackendService.prototype.validateJwt = function (jwtToken, onSuccess, onError) {
+BackendService.prototype.validateJwt = function (jwtToken, onSuccess) {
     var self = this;
     $.ajax({
         type: "POST",
@@ -39,6 +38,25 @@ BackendService.prototype.validateJwt = function (jwtToken, onSuccess, onError) {
         contentType: "application/json"
     });
 };
+
+BackendService.prototype.registerUser = function (email, password, onSuccess, onError) {
+    var self = this;
+    $.ajax({
+        type: "POST",
+        url: document.app.getConfig().apiUrl + '/login/signup',
+        data: JSON.stringify({ email: email, password: password }),
+        success: function (response) {
+            self.token = response.token;
+            localStorage.setItem('jwt_token', response.token);
+            onSuccess(response);
+        },
+        error: function (xhr) {
+            onError(xhr.status);
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+}
 
 // ---------------------------------------------------------------------------------
 // Device

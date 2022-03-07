@@ -33,3 +33,5 @@ create table uconfy_user (
     api_key varchar(64),
     registered_at datetime
 )
+
+ALTER TABLE uconfy_user MODIFY COLUMN user_id INT primary key auto_increment

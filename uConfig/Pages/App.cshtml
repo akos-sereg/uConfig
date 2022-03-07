@@ -7,10 +7,20 @@
 <div class="center">
     <div style="width: 920px;">
 
-        <nav id="app_navbar" class="nav nav-pills flex-column flex-sm-row">
-            <a class="flex-sm-fill text-sm-center nav-link" href="/#">Home</a>
-            <a class="flex-sm-fill text-sm-center nav-link" href="/#" onclick="document.app.screens.loginScreen.logout(event);">Logout</a>
-        </nav>
+        <table id="app_navbar" width="100%">
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="/images/ucontroller-small.png" width="80" /><span class="uconfy_logo uconfy_logo_black">&micro;Confy</span>
+                    </td>
+                    <td align="right">
+                        <a class="nav_link" href="/#">Home</a>
+                        <a class="nav_link" href="/#">Documentation</a>
+                        <a class="nav_link" href="/#" onclick="document.app.screens.loginScreen.logout(event);">Logout</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <!-- ------------------------------------------------------------------------------------------------ -->
         <!-- Login Screen -->
@@ -31,7 +41,7 @@
                 <tbody>
 
                     <tr>
-                        <td>Email</td>
+                        <td width="20%">Email</td>
                         <td>
                             <input id="login_username" type="text" class="form-control add_device_input" placeholder="Email" aria-label="Email" />
                         </td>
@@ -42,10 +52,20 @@
                             <input id="login_password" type="password" class="form-control add_device_input" placeholder="Password" aria-label="Password" />
                         </td>
                     </tr>
+                    <tr id="signup_password_confirm" class="uconfy_hide">
+                        <td>Confirm Password</td>
+                        <td>
+                            <input id="login_password_confirm" type="password" class="form-control add_device_input" placeholder="Password Confirmation" aria-label="Password Confirmation" />
+                        </td>
+                    </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            <button onclick="document.app.screens.loginScreen.login();" class="btn btn-primary btn-sm">Login</button>
+                            <p>
+                                <a id="signup_link" href="#" onclick="document.app.screens.loginScreen.showCreateAccount();">Create Account</a>
+                                <a id="login_link" class="uconfy_hide" href="#" onclick="document.app.screens.loginScreen.showLogin();">go back to Login screen</a>
+                            </p>
+                            <button id="login_signup_btn" data-cmd="login" onclick="document.app.screens.loginScreen.loginOrSignup();" class="btn btn-primary btn-sm">Login</button>
                         </td>
                     </tr>
 
@@ -115,14 +135,16 @@
                 </ol>
             </nav>
 
-            <h1>Configuration</h1>
-
             <div id="tab_pages_configuration">
                 <div id="tab_pages_config_nav"></div>
                 <div id="tab_pages_config_details">
 
                     <div class="alert alert-warning" id="device_not_connected" role="alert">
                         Device is not connected. Navigate to Access tab to see how you can configure your device to use UConfig.
+                    </div>
+
+                    <div class="alert alert-warning" id="device_seen_long_while_ago" role="alert">
+                        Device seen <span class="device_last_seen_days"></span> days ago.
                     </div>
 
                     <div class="alert alert-success" id="device_connected" role="alert">

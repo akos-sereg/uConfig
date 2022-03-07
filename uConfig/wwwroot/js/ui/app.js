@@ -21,11 +21,10 @@
 
 App.prototype.getConfig = function () {
     return {
-        // apiUrl: 'http://127.0.0.1:8080/api',
-        // apiUrl: 'https://uconfy.herokuapp.com/api',
         apiUrl: '/api',
         consoleLogPollInterval: 10, // seconds
         detailsPollInterval: 10, // seconds
+        deviceInactiveInterval: 86400, // if lastSeen seconds exceeds this value, device is considered as disconnected
     };
 }
 

@@ -98,7 +98,7 @@
 }
 
 .add_device_input {
-    width: 250px;
+    width: 350px;
 }
 
 .add_device_table {
@@ -207,4 +207,18 @@
 .uconfy_logo {
     font-weight: bold;
     font-size: 32pt;
+}
+
+.uconfy_logo_black {
+    color: #000000;
+    top: 10px;
+    position: relative;
+}
+
+.nav_link {
+    margin-left: 30px;
+}
+
+.uconfy_hide {
+    display: none;
 }

@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using MySqlConnector;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using uConfig.Model;
+using uConfig.Model.Exception;
 
 namespace uConfig.Services
 {
@@ -117,8 +116,51 @@ namespace uConfig.Services
 			} catch (Exception)
             {
 				return null;
-            }
-			
+            }	
+		}
+
+		public async Task<Boolean> IsEmailRegistered(string email) {
+			int userCount = 0;
+			using (MySqlConnection connection = new MySqlConnection(connectionString))
+			{
+				await connection.OpenAsync();
+
+				// check for existing user
+				using var command = new MySqlCommand("SELECT user_id FROM uconfy_user WHERE email = ?email", connection);
+				command.Parameters.Add("?email", MySqlDbType.VarChar).Value = email.Trim().ToLower();
+
+				using var reader = await command.ExecuteReaderAsync();
+				
+				while (await reader.ReadAsync())
+				{
+					userCount++;
+				}
+
+				await connection.CloseAsync();
+			}
+
+			return userCount > 0;
+		}
+
+		public async Task RegisterUser(string email, string password)
+        {
+			bool isUserRegistered = await IsEmailRegistered(email);
+			if (isUserRegistered)
+            {
+				throw new UserAlreadyRegisteredException(email, "Unable to register user");
+			}
+
+			using (MySqlConnection connection = new MySqlConnection(connectionString))
+			{
+				await connection.OpenAsync();
+
+				// insert
+				var insertCommand = new MySqlCommand("INSERT INTO uconfy_user (user_id, email, password, api_key, registered_at) VALUES (DEFAULT, ?email, MD5(?password), ?api_key, UTC_TIMESTAMP())", connection);
+				insertCommand.Parameters.Add("?email", MySqlDbType.VarChar).Value = email.Trim().ToLower();
+				insertCommand.Parameters.Add("?password", MySqlDbType.VarChar).Value = password;
+				insertCommand.Parameters.Add("?api_key", MySqlDbType.VarChar).Value = Guid.NewGuid().ToString();
+				await insertCommand.ExecuteNonQueryAsync();
+			}
 		}
 
 		private string GenerateToken(int userId, string email, string apiKey)
