@@ -33,4 +33,7 @@ App.prototype.init = function () {
     this.screens.devicesScreen.init();
 
     this.screens.screenHandler.showScreen('login');
+    if (document.location.hash == '#signup') {
+        this.screens.loginScreen.showCreateAccount();
+    }
 }
