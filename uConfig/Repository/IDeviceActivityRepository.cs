@@ -11,6 +11,8 @@ namespace uConfig.Repository
 
         Task<DateTime?> GetLastSeen(string deviceId);
 
+        Task<Dictionary<string, long>> GetLastSeenForDevices(int userId);
+
         Task AppendLogs(string deviceId, string messages);
 
         Task<List<string>> GetLogs(string deviceId);

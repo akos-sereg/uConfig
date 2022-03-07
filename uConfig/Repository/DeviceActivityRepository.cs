@@ -51,6 +51,51 @@ namespace uConfig.Repository
             }
         }
 
+        public async Task<Dictionary<string, long>> GetLastSeenForDevices(int userId)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                Dictionary<string, long> lastSeenData = new Dictionary<string, long>();
+                await connection.OpenAsync();
+
+                /**
+                 *  SELECT 
+	                    d.id as device_id,
+                        d.user_id as user_id,
+                        da.inserted_at as inserted_at
+                    FROM device d
+                    LEFT JOIN (
+	                    SELECT 
+		                    da.device_id, 
+		                    da.inserted_at 
+                        FROM device_activity da
+                        ORDER BY da.inserted_at DESC 
+	                    LIMIT 0,1
+                    ) as da ON d.id = da.device_id
+                    WHERE user_id = ?user_id
+                 * */
+                using var command = new MySqlCommand("SELECT d.id as device_id, d.user_id as user_id, da.inserted_at as inserted_at FROM device d LEFT JOIN (SELECT da.device_id, da.inserted_at FROM device_activity da ORDER BY da.inserted_at DESC LIMIT 0,1) as da ON d.id = da.device_id WHERE user_id = ?user_id", connection);
+                command.Parameters.Add("?user_id", MySqlDbType.Int32).Value = userId;
+
+                using var reader = await command.ExecuteReaderAsync();
+                List<string> logs = new List<string>();
+                while (await reader.ReadAsync())
+                {
+                    DateTime? lastSeen = null;
+                    if (!reader.IsDBNull(reader.GetOrdinal("inserted_at")))
+                    {
+                        lastSeen = reader.GetDateTime(reader.GetOrdinal("inserted_at"));
+                    }
+
+                    lastSeenData.Add(
+                        reader.GetString(reader.GetOrdinal("device_id")),
+                        lastSeen.HasValue ? ((int)DateTime.Now.Subtract(lastSeen.Value).TotalSeconds) : -1);
+                }
+
+                return lastSeenData;
+            }
+        }
+
         public async Task AppendLogs(string deviceId, string messages)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))

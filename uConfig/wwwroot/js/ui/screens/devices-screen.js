@@ -30,7 +30,8 @@ DevicesScreen.prototype.submitNewDevice = function () {
 
 DevicesScreen.prototype.fetchDevices = function () {
     var self = this;
-    document.app.services.backendService.getDevices(function (devices) {
+    document.app.services.backendService.getDevices(function (devicesResponse) {
+        var devices = devicesResponse.devices;
         document.app.state.devices = devices;
         self.registeredDeviceList.refresh(devices);
     });

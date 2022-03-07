@@ -45,12 +45,12 @@ $ heroku logs --tail -a uconfy
   - Add validation: create devices, update device, add config key-value
   x use rdbms instead of in-memory store
   x rename page title, add favicon
-  - auth
+  x auth
     x make all endpoints api key protected
     x introduce JWT token
     x handle incorrect login
     x auto login after page refresh if session is alive
-    - check login issue
+    x check login issue
 - features
   - control device: send restart command
   - device-already-read indicator
@@ -66,7 +66,7 @@ $ heroku logs --tail -a uconfy
   - rename all "uconfig" to "uconfy"
   - Console.WriteLine to logger
 - security
-  - validate email
+  x validate email
   - force https
   - jwt token secret to be read from config
   - mysql connection string to be read from environment variables

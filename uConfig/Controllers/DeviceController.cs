@@ -135,7 +135,12 @@ namespace uConfig.Controllers
 
             _logger.LogInformation("Get Devices call from {email}", loggedInUser.Email);
 
-            return Ok(await _deviceRepository.GetDevices(loggedInUser.UserID));
+            return Ok(
+                new GetDevicesResponse(
+                    await _deviceRepository.GetDevices(loggedInUser.UserID),
+                    await _deviceActivityRepository.GetLastSeenForDevices(loggedInUser.UserID)
+                )
+            );
         }
 
         #endregion Device Management
