@@ -121,6 +121,10 @@
                 There is no device added yet.
             </div>
 
+            <div id="registered-device-list-loading">
+                <img src="~/images/loading.gif" />
+            </div>
+
         </div>
 
         <!-- ------------------------------------------------------------------------------------------------ -->
@@ -132,7 +136,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#" onclick="document.app.screens.screenHandler.showScreen('devices');">Devices</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Configuration</li>
+                    <li class="breadcrumb-item active" id="breadcrump-active-page" aria-current="page"></li>
                 </ol>
             </nav>
 
@@ -227,11 +231,14 @@
         <!-- ------------------------------------------------------------------------------------------------ -->
 
         <template id="registered-device-template">
-            <div class="card" style="width: 18rem;">
+            <div class="card device-card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title" id="device-card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a id="configure_device_btn" onclick="document.app.screens.screenHandler.showScreen('configuration', '{deviceId}');" href="#" class="btn btn-primary">Configure</a>
+                    <p>
+                        <span id="device-card-online-indicator"></span>
+                        <span class="card-text" id="device-card-subtitle"></span>
+                    </p>
+                    <a id="configure_device_btn" onclick="document.app.screens.screenHandler.showScreen('configuration', '{deviceId}');" href="#" class="btn btn-primary configure-btn">Configure</a>
                 </div>
             </div>
         </template>

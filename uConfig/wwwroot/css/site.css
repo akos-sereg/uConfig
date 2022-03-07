@@ -233,3 +233,39 @@
 .uconfy_hide {
     display: none;
 }
+
+.dot-green {
+    height: 10px;
+    width: 10px;
+    background-color: #03C800;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.dot-gray {
+    height: 10px;
+    width: 10px;
+    background-color: #CECECE;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.dot-yellow {
+    height: 10px;
+    width: 10px;
+    background-color: #FFD043;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.device-card {
+    min-height: 200px;
+}
+
+.configure-btn {
+    position: absolute;
+    bottom: 20px;
+}

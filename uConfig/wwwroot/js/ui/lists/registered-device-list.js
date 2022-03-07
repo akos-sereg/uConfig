@@ -21,6 +21,17 @@ RegisteredDeviceList.prototype.refresh = function (devices) {
 
         record.classList.add("registered_device_item");
         record.querySelector('#device-card-title').textContent = registeredDevice.name;
+        deviceLastSeen = document.app.state.deviceIdLastSeen[registeredDevice.deviceID];
+        if (deviceLastSeen == -1) {
+            record.querySelector('#device-card-online-indicator').classList.add('dot-gray');
+            record.querySelector('#device-card-subtitle').textContent = "Device not connected";
+        } else if (deviceLastSeen < 84000) {
+            record.querySelector('#device-card-online-indicator').classList.add('dot-green');
+            record.querySelector('#device-card-subtitle').textContent = "Device Active";
+        } else {
+            record.querySelector('#device-card-online-indicator').classList.add('dot-yellow');
+            record.querySelector('#device-card-subtitle').textContent = "Device seen " + Math.floor(deviceLastSeen / 84000) + " days ago";
+        }
         record.querySelector('#configure_device_btn').attributes.onclick.nodeValue =
             record.querySelector('#configure_device_btn')
                 .attributes

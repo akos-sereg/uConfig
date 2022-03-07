@@ -128,6 +128,9 @@ ConfigurationScreen.prototype.load = function () {
         // update sample code on access tab
         self.refreshSampleCode(deviceConfig);
     });
+
+    // navigation
+    $('#breadcrump-active-page').html(this.device.name);
 }
 
 ConfigurationScreen.prototype.refreshSampleCode = function () {

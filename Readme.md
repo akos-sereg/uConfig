@@ -39,10 +39,11 @@ $ heroku logs --tail -a uconfy
   - documentation
   - activity tab
   - rotate api key
-  - device card
+  x device card
   - key constraint: should be max 15 length; verify on ui
   - make sure that device logs are XSS safe
   - Add validation: create devices, update device, add config key-value
+  - loading indicator on devices screen
   x use rdbms instead of in-memory store
   x rename page title, add favicon
   x auth
@@ -74,6 +75,8 @@ $ heroku logs --tail -a uconfy
   - logout: clear jwt from local storage, and invalidate on service
 - tech debt
   - remove old log items (eg. retain last 150 always for a device)
+  - main site to be on angular
+  - web app to be on React
 
 ## Use cases
 

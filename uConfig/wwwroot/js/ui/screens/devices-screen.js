@@ -7,6 +7,7 @@
 DevicesScreen.prototype.init = function () {
     this.registeredDeviceList.hideNone();
     this.addDeviceForm.hide();
+    $('#registered-device-list-loading').hide();
 }
 
 DevicesScreen.prototype.submitNewDevice = function () {
@@ -30,9 +31,11 @@ DevicesScreen.prototype.submitNewDevice = function () {
 
 DevicesScreen.prototype.fetchDevices = function () {
     var self = this;
+    $('#registered-device-list-loading').show();
     document.app.services.backendService.getDevices(function (devicesResponse) {
-        var devices = devicesResponse.devices;
-        document.app.state.devices = devices;
-        self.registeredDeviceList.refresh(devices);
+        document.app.state.devices = devicesResponse.devices;
+        document.app.state.deviceIdLastSeen = devicesResponse.deviceIdLastSeen;
+        self.registeredDeviceList.refresh(document.app.state.devices);
+        $('#registered-device-list-loading').hide();
     });
 }
