@@ -30,7 +30,6 @@ AddConfigItemForm.prototype.submit = function () {
             document.app.services.backendService.getDeviceConfig(document.app.screens.configurationScreen.device.deviceID, function (deviceConfig) {
                 document.app.screens.configurationScreen.deviceConfig = deviceConfig;
                 document.app.screens.configurationScreen.renderKeyValueList();
-                document.app.screens.configurationScreen.refreshSampleCode();
             });
         }
     );

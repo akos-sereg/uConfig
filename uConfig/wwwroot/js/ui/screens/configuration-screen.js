@@ -61,7 +61,17 @@
                             $('#device_connected').hide();
                             $('#device_seen_long_while_ago').hide();
                         } else {
-                            $('.device_last_seen').html(lastSeenInSeconds);
+                            var lastSeenHumanReadable = '';
+                            if (lastSeenInSeconds < 60) {
+                                lastSeenHumanReadable = lastSeenInSeconds + ' seconds ago';
+                            } else if (lastSeenInSeconds < 3600) {
+                                lastSeenHumanReadable = Math.floor(lastSeenInSeconds / 60) + ' minutes ago';
+                            } else if (lastSeenInSeconds < 86400) {
+                                lastSeenHumanReadable = Math.floor(lastSeenInSeconds / 60 / 60) + ' hours ago';
+                            } else {
+                                lastSeenHumanReadable = Math.floor(lastSeenInSeconds / 60 / 60 / 24) + ' days ago';
+                            }
+                            $('.device_last_seen').html(lastSeenHumanReadable);
                             $('#device_connected').show();
                             $('#device_not_connected').hide();
                             $('#device_seen_long_while_ago').hide();
@@ -78,9 +88,10 @@
                     // poller is already running for the target device
                     return;
                 } else {
-                    // poller is running for a different device, canceling poller
+                    // poller is running for a different device, canceling poller, clearing console
                     if (self.consolePoller.poller) {
                         clearInterval(self.consolePoller.poller);
+                        $('#console_logs').html('(loading ...)');
                     }
                 }
 
@@ -94,15 +105,10 @@
 
                 pollerJob();
                 self.consolePoller.deviceId = self.device.deviceID;
-                self.consolePoller.poller = setInterval(pollerJob, document.app.getConfig().consoleLogPollInterval * 1000);
-                
+                self.consolePoller.poller = setInterval(pollerJob, document.app.getConfig().consoleLogPollInterval * 1000);   
             }
         }
     );
-
-    // polling for console logs
-    
-    
 }
 
 ConfigurationScreen.prototype.load = function () {
@@ -124,32 +130,10 @@ ConfigurationScreen.prototype.load = function () {
     document.app.services.backendService.getDeviceConfig(this.device.deviceID, function (deviceConfig) {
         self.deviceConfig = deviceConfig;
         self.renderKeyValueList();
-
-        // update sample code on access tab
-        self.refreshSampleCode(deviceConfig);
     });
 
     // navigation
     $('#breadcrump-active-page').html(this.device.name);
-}
-
-ConfigurationScreen.prototype.refreshSampleCode = function () {
-    var sampleCode = $('#sample_code_template').html()
-        .replace('{deviceId}', this.device.deviceID)
-        .replace('{apiKey}', document.app.state.loggedInUser.apiKey);
-
-    var paramsCode = this.deviceConfig.items.length == 0 ? '    // no key-value pair added yet. use Params tab to add config.\n' : '';
-    this.deviceConfig.items.forEach(function (item) {
-        const parsed = parseInt(item.value, 10);
-        if (!isNaN(parsed)) {
-            paramsCode += '    printf("' + item.key + ': %d\\n", uconfig_get_int_param("' + item.key + '", 1234));\n';
-        }
-        else {
-            paramsCode += '    printf("' + item.key + ': %s\\n", uconfig_get_string_param("' + item.key + '", "aaaa"));\n';
-        }
-    });
-    var sampleCode = sampleCode.replace('{getParamsCode}', paramsCode);
-    $('#sample_code').html(sampleCode);
 }
 
 ConfigurationScreen.prototype.renderKeyValueList = function () {
@@ -209,13 +193,33 @@ ConfigurationScreen.prototype.updateDevice = function () {
 }
 
 ConfigurationScreen.prototype.deleteDevice = function () {
-    document.app.services.backendService.deleteDevice(
-        this.device.deviceID,
-        function () {
-            toastr["success"]("Device deleted successfully");
+    if (confirm("Are you sure you want to delete the device?") == true) {
+        document.app.services.backendService.deleteDevice(
+            this.device.deviceID,
+            function () {
+                toastr["success"]("Device deleted successfully");
+                document.app.screens.screenHandler.showScreen('devices', null);
+                document.app.screens.configurationScreen.shutdownPollers();
+                document.app.screens.devicesScreen.fetchDevices();
 
-            document.app.screens.screenHandler.showScreen('devices', null);
-            document.app.screens.devicesScreen.fetchDevices();
-        }
-    );
+                // on production sometimes we have a bit of a delay (probably because of data propagation delay), so it is
+                // better to just reload the data once again after 1500 ms
+                setTimeout(document.app.screens.devicesScreen.fetchDevices, 1500);
+            }
+        );
+    }
+}
+
+ConfigurationScreen.prototype.shutdownPollers = function () {
+    if (this.consolePoller.poller) {
+        clearInterval(this.consolePoller.poller);
+    }
+
+    if (this.detailsPoller.poller) {
+        clearInterval(this.detailsPoller.poller);
+    }
+}
+
+ConfigurationScreen.prototype.rotateApiKey = function () {
+    alert('This feature is not supported yet. Drop an email to akos.sereg@gmail.com and push me to implement it.');
 }

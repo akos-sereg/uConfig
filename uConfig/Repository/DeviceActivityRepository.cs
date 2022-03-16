@@ -59,22 +59,17 @@ namespace uConfig.Repository
                 await connection.OpenAsync();
 
                 /**
-                 *  SELECT 
-	                    d.id as device_id,
-                        d.user_id as user_id,
-                        da.inserted_at as inserted_at
-                    FROM device d
-                    LEFT JOIN (
-	                    SELECT 
-		                    da.device_id, 
-		                    da.inserted_at 
-                        FROM device_activity da
-                        ORDER BY da.inserted_at DESC 
-	                    LIMIT 0,1
-                    ) as da ON d.id = da.device_id
-                    WHERE user_id = ?user_id
+                 *  
+SELECT 
+	d.id as device_id,
+	d.user_id as user_id,
+	(
+		SELECT inserted_at FROM device_activity WHERE device_id = id LIMIT 0,1
+    ) as inserted_at
+FROM device d
+WHERE user_id = 1234
                  * */
-                using var command = new MySqlCommand("SELECT d.id as device_id, d.user_id as user_id, da.inserted_at as inserted_at FROM device d LEFT JOIN (SELECT da.device_id, da.inserted_at FROM device_activity da ORDER BY da.inserted_at DESC LIMIT 0,1) as da ON d.id = da.device_id WHERE user_id = ?user_id", connection);
+                using var command = new MySqlCommand("SELECT d.id as device_id, d.user_id as user_id, (SELECT inserted_at FROM device_activity WHERE device_id = id ORDER BY inserted_at DESC LIMIT 0,1) as inserted_at FROM device d WHERE user_id = ?user_id", connection);
                 command.Parameters.Add("?user_id", MySqlDbType.Int32).Value = userId;
 
                 using var reader = await command.ExecuteReaderAsync();

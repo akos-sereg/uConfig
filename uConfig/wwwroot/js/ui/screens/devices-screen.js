@@ -24,18 +24,21 @@ DevicesScreen.prototype.submitNewDevice = function () {
         self.addDeviceForm.clear();
 
         toastr["success"]("Device registered successfully");
-        self.fetchDevices();
         self.addDeviceForm.hide();
+        self.fetchDevices();
+
+        // on production sometimes we have a bit of a delay (probably because of data propagation delay), so it is
+        // better to just reload the data once again after 1500 ms
+        setTimeout(self.fetchDevices, 1500);
     });
 }
 
 DevicesScreen.prototype.fetchDevices = function () {
-    var self = this;
     $('#registered-device-list-loading').show();
     document.app.services.backendService.getDevices(function (devicesResponse) {
         document.app.state.devices = devicesResponse.devices;
         document.app.state.deviceIdLastSeen = devicesResponse.deviceIdLastSeen;
-        self.registeredDeviceList.refresh(document.app.state.devices);
+        document.app.screens.devicesScreen.registeredDeviceList.refresh(document.app.state.devices);
         $('#registered-device-list-loading').hide();
     });
 }
