@@ -76,8 +76,7 @@ BackendService.prototype.registerDevice = function (device, onSuccess) {
         error: function (xhr) {
 
             if (xhr.status != 201) {
-                console.error('Backend service call failure');
-                console.log(xhr);
+                document.app.services.backendService.handleErrorStatus(xhr.status);
             }
 
             if (xhr.status == 201) {
@@ -100,6 +99,9 @@ BackendService.prototype.getDevices = function (onSuccess) {
         success: function (data) {
             onSuccess(data);
         },
+        error: function (xhr) {
+            document.app.services.backendService.handleErrorStatus(xhr.status);
+        },
         dataType: 'json',
         contentType: "application/json"
     });
@@ -116,6 +118,9 @@ BackendService.prototype.getDeviceActivity = function (deviceId, onSuccess) {
         success: function (lastSeen, resp) {
             onSuccess(resp == 'nocontent' ? -1 : lastSeen);
         },
+        error: function (xhr) {
+            document.app.services.backendService.handleErrorStatus(xhr.status);
+        },
         dataType: 'json',
         contentType: "application/json"
     });
@@ -131,6 +136,9 @@ BackendService.prototype.getDeviceLogs = function (deviceId, onSuccess) {
         },
         success: function (logs) {
             onSuccess(logs);
+        },
+        error: function (xhr) {
+            document.app.services.backendService.handleErrorStatus(xhr.status);
         },
         dataType: 'json',
         contentType: "application/json"
@@ -151,6 +159,9 @@ BackendService.prototype.getDeviceConfig = function (deviceId, onSuccess) {
         success: function (data) {
             onSuccess(data);
         },
+        error: function (xhr) {
+            document.app.services.backendService.handleErrorStatus(xhr.status);
+        },
         dataType: 'json',
         contentType: "application/json"
     });
@@ -169,7 +180,7 @@ BackendService.prototype.createOrUpdateDeviceConfig = function (deviceId, device
             onSuccess();
         },
         error: function (xhr) {
-            console.log(xhr);
+            document.app.services.backendService.handleErrorStatus(xhr.status);
         },
         dataType: 'json',
         contentType: "application/json"
@@ -189,7 +200,7 @@ BackendService.prototype.updateDevice = function (deviceId, device, onSuccess) {
             onSuccess();
         },
         error: function (xhr) {
-            console.log(xhr);
+            document.app.services.backendService.handleErrorStatus(xhr.status);
         },
         dataType: 'json',
         contentType: "application/json"
@@ -208,9 +219,27 @@ BackendService.prototype.deleteDevice = function (deviceId, onSuccess) {
             onSuccess();
         },
         error: function (xhr) {
-            console.log(xhr);
+            document.app.services.backendService.handleErrorStatus(xhr.status);
         },
         dataType: 'json',
         contentType: "application/json"
     });
+}
+
+// ------------------------------------------------------------------------------
+BackendService.prototype.handleErrorStatus = function (status, onError) {
+    if (onError) {
+        onError();
+        return;
+    }
+
+    switch (status) {
+        case 401:
+            toastr["warning"]("Not authorized");
+            break;
+        default:
+            console.error('Backend service call failure, received status code ' + status);
+            toastr["warning"]("Unexpected error on server");
+            break;
+    }
 }

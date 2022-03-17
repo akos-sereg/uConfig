@@ -178,7 +178,7 @@ ConfigurationScreen.prototype.deleteConfigItem = function (key) {
     );
 }
 
-ConfigurationScreen.prototype.updateDevice = function () {
+ConfigurationScreen.prototype.updateDevice = function (event) {
     var deviceData = this.updateDeviceForm.getFormData();
     deviceData.deviceId = this.device.deviceID;
 
@@ -190,9 +190,13 @@ ConfigurationScreen.prototype.updateDevice = function () {
             document.app.screens.devicesScreen.fetchDevices();
         }
     );
+
+    if (event) {
+        event.preventDefault();
+    }
 }
 
-ConfigurationScreen.prototype.deleteDevice = function () {
+ConfigurationScreen.prototype.deleteDevice = function (event) {
     if (confirm("Are you sure you want to delete the device?") == true) {
         document.app.services.backendService.deleteDevice(
             this.device.deviceID,
@@ -207,6 +211,10 @@ ConfigurationScreen.prototype.deleteDevice = function () {
                 setTimeout(document.app.screens.devicesScreen.fetchDevices, 1500);
             }
         );
+    }
+
+    if (event) {
+        event.preventDefault();
     }
 }
 

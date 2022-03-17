@@ -18,6 +18,7 @@
             <form class="form-inline mt-2 mt-md-0">
                 <button onclick="document.location.href = '/app'; event.preventDefault();" class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
                 <button onclick="document.location.href = '/app#signup'; event.preventDefault();" class="btn btn-outline-success my-2 my-sm-0 signup_btn" type="submit">Signup</button>
+                <button onclick="document.location.href = '/app#autologinDemo'; event.preventDefault();" class="btn btn-outline-success my-2 my-sm-0 signup_btn" type="submit">Demo Account</button>
             </form>
         </div>
     </nav>
@@ -38,7 +39,7 @@
                     <div class="carousel-caption text-left">
                         <h1>Logging</h1>
                         <p>You can send logs from your &micro;Controller to &micro;Confy, which gives you a better debugging experience.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                        <p><a class="btn btn-lg btn-primary" onclick="document.location.href = '/app#signup'; event.preventDefault();" href="#" role="button">Sign up today</a></p>
                     </div>
                 </div>
             </div>
@@ -48,7 +49,6 @@
                     <div class="carousel-caption">
                         <h1>Configuration</h1>
                         <p>Your &micro;Controller device can fetch config variables from &micro;Confy, so that you can re-configure your &micro;Controller device without re-deploying your code.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                     <div class="carousel-caption text-right">
                         <h1>Diagnostics</h1>
                         <p>Your &micro;Controller device can send diagnostics data to &micro;Confy, so that you can monitor your device's health.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                        <p>(upcoming feature)</p>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,6 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
 
     <!-- Marketing messaging and featurettes
     ================================================== -->

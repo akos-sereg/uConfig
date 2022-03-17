@@ -22,5 +22,10 @@ namespace uConfig.Model
         /// </summary>
         public string ApiKey { get; set; }
 
+        /// <summary>
+        /// Either "demo" or "user". Demo user is read-only.
+        /// </summary>
+        public string Role { get; set; }
+
 	}
 }

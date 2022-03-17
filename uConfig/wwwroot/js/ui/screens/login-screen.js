@@ -56,6 +56,11 @@ LoginScreen.prototype.autologin = function () {
     }
 }
 
+LoginScreen.prototype.autologinDemoAccount = function () {
+    localStorage.setItem('jwt_token', document.app.getConfig().demoAccountJwt);
+    document.app.screens.loginScreen.autologin();
+}
+
 LoginScreen.prototype.loginOrSignup = function () {
     var buttonCommand = $('#login_signup_btn').data('cmd');
     if (buttonCommand == 'login') {

@@ -41,6 +41,11 @@ namespace uConfig.Controllers
                 return Unauthorized();
             }
 
+            if (loggedInUser.Role.Equals("demo"))
+            {
+                return Unauthorized();
+            }
+
             _logger.LogInformation("Register Device call from {email}, new device name: {deviceName}", loggedInUser.Email, device.Name);
 
             if (!ModelState.IsValid)
@@ -68,6 +73,11 @@ namespace uConfig.Controllers
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
             if (loggedInUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (loggedInUser.Role.Equals("demo"))
             {
                 return Unauthorized();
             }
@@ -103,6 +113,11 @@ namespace uConfig.Controllers
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
             if (loggedInUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (loggedInUser.Role.Equals("demo"))
             {
                 return Unauthorized();
             }
@@ -153,6 +168,11 @@ namespace uConfig.Controllers
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
             if (loggedInUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (loggedInUser.Role.Equals("demo"))
             {
                 return Unauthorized();
             }
@@ -276,6 +296,11 @@ namespace uConfig.Controllers
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
             if (loggedInUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (loggedInUser.Role.Equals("demo"))
             {
                 return Unauthorized();
             }

@@ -80,9 +80,10 @@ namespace uConfig.Services
 					{
 						ApiKey = reader.GetString(reader.GetOrdinal("api_key")),
 						Email = reader.GetString(reader.GetOrdinal("email")),
-						UserID = reader.GetInt32(reader.GetOrdinal("user_id"))
+						UserID = reader.GetInt32(reader.GetOrdinal("user_id")),
 					};
 
+					user.Role = user.Email.Equals("demouser@demo.de") ? "demo" : "user";
 					user.Token = GenerateToken(user.UserID, user.Email, user.ApiKey);
 
 					return user;
@@ -111,6 +112,7 @@ namespace uConfig.Services
 					Email = claims.Claims.First(claim => claim.Type == ClaimTypes.Email).Value,
 					UserID = int.Parse(claims.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value),
 					ApiKey = claims.Claims.First(claim => claim.Type == ClaimTypes.Sid).Value,
+					Role = claims.Claims.First(claim => claim.Type == ClaimTypes.Role).Value,
 					Token = token
 				};
 			} catch (Exception)
@@ -175,7 +177,8 @@ namespace uConfig.Services
 				{
 					new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
 					new Claim(ClaimTypes.Email, email),
-					new Claim(ClaimTypes.Sid, apiKey)
+					new Claim(ClaimTypes.Sid, apiKey),
+					new Claim(ClaimTypes.Role, "user") // role should be "demo" when generating read-only user (eg. demo user's jwt token for public use)
 				}),
 				Expires = DateTime.UtcNow.AddDays(365),
 				Issuer = myIssuer,
