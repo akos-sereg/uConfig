@@ -26,7 +26,7 @@ namespace uConfig.Repository
         }
 
         #region Device Management
-        public void RegisterDevice(Device device)
+        public async Task RegisterDevice(Device device)
         {
             device.DeviceID = Guid.NewGuid();
             RegisteredDevices.Add(device);
@@ -50,14 +50,14 @@ namespace uConfig.Repository
             return RegisteredDevices.Find(device => device.DeviceID.Equals(deviceId));
         }
 
-        public void UpdateDevice(Device device)
+        public async Task UpdateDevice(Device device)
         {
             Device deviceToUpdate = RegisteredDevices.Find(registeredDevice => registeredDevice.DeviceID == device.DeviceID);
             deviceToUpdate.Name = device.Name;
             deviceToUpdate.Platform = device.Platform;
         }
 
-        public void DeleteDevice(Guid deviceId)
+        public async Task DeleteDevice(Guid deviceId)
         {
             RegisteredDevices.Remove(RegisteredDevices.Find(device => device.DeviceID == deviceId));
         }

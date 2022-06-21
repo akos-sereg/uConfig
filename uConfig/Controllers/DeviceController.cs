@@ -58,7 +58,7 @@ namespace uConfig.Controllers
             if (!await _deviceRepository.IsDeviceAlreadyRegistered(device))
             {
                 // happy path, 201 created after adding
-                _deviceRepository.RegisterDevice(device);
+                await _deviceRepository.RegisterDevice(device);
                 return Created("/device/" + device.DeviceID, device);
             } else
             {
@@ -103,7 +103,7 @@ namespace uConfig.Controllers
 
             device.UserID = loggedInUser.UserID;
 
-            _deviceRepository.UpdateDevice(device);
+            await _deviceRepository.UpdateDevice(device);
             return NoContent();
         }
 
@@ -135,7 +135,7 @@ namespace uConfig.Controllers
                 return Unauthorized();
             }
 
-            _deviceRepository.DeleteDevice(deviceId);
+            await _deviceRepository.DeleteDevice(deviceId);
             return NoContent();
         }
 

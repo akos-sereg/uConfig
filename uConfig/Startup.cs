@@ -4,15 +4,50 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace uConfig
 {
+    public class ErrorWrappingMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public ErrorWrappingMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            try
+            {
+                Console.WriteLine("--> invoking next");
+                await _next.Invoke(context);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("--> caught exception");
+                context.Response.StatusCode = 500;
+
+                if (!context.Response.HasStarted)
+                {
+                    Console.WriteLine("--> writing response");
+                    context.Response.ContentType = "application/json";
+
+                    await context.Response.WriteAsync("{error: true}");
+                }
+            }
+        }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -26,11 +61,14 @@ namespace uConfig
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddControllers();
             services.AddTransient<MySqlConnection>(_ => new MySqlConnection(Configuration["ConnectionStrings:Default"]));
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.WithOrigins("http://localhost:3000")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+
+                builder.WithOrigins("http://127.0.0.1:3000")
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
@@ -43,7 +81,7 @@ namespace uConfig
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                // app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error");
             }
             else
             {
@@ -54,6 +92,7 @@ namespace uConfig
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseMiddleware<ErrorWrappingMiddleware>();
 
             app.UseExceptionHandler(c => c.Run(async context =>
             {

@@ -37,7 +37,7 @@ namespace uConfig.Repository
             }
         }
 
-        public async void DeleteDevice(Guid deviceId)
+        public async Task DeleteDevice(Guid deviceId)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -132,7 +132,7 @@ namespace uConfig.Repository
             }
         }
 
-        public async void RegisterDevice(Device device)
+        public async Task RegisterDevice(Device device)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -148,7 +148,7 @@ namespace uConfig.Repository
             }
         }
 
-        public async void UpdateDevice(Device device)
+        public async Task UpdateDevice(Device device)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
