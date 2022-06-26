@@ -50,15 +50,15 @@ $ heroku logs --tail -a uconfy
 
 ## TODOs
 
-- go live requirements
+- go live ("productizing") requirements
   - documentation
   - activity tab
-  - rotate api key
+  x rotate api key
   x device card
-  - key constraint: should be max 15 length; verify on ui
+  x key constraint: should be max 15 length; verify on ui
   - make sure that device logs are XSS safe
   - Add validation: create devices, update device, add config key-value
-  - loading indicator on devices screen
+  x loading indicator on devices screen
   x use rdbms instead of in-memory store
   x rename page title, add favicon
   x auth
@@ -84,9 +84,9 @@ $ heroku logs --tail -a uconfy
 - security
   x validate email
   - force https
-  - jwt token secret to be read from config
+  x jwt token secret to be read from config
   - mysql connection string to be read from environment variables
-  - check what happens if jwt validation fails
+  x check what happens if jwt validation fails
   - logout: clear jwt from local storage, and invalidate on service
 - tech debt
   - remove old log items (eg. retain last 150 always for a device)

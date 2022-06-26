@@ -32,6 +32,7 @@ namespace uConfig
             services.AddTransient<MySqlConnection>(_ => new MySqlConnection(Configuration["ConnectionStrings:Default"]));
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
+                // react-uconfy frontend development
                 builder.WithOrigins("http://localhost:3000")
                        .AllowAnyMethod()
                        .AllowAnyHeader();
@@ -40,6 +41,7 @@ namespace uConfig
                        .AllowAnyMethod()
                        .AllowAnyHeader();
 
+                // local docker container environment (backend and frontend)
                 builder.WithOrigins("http://127.0.0.1:8080")
                        .AllowAnyMethod()
                        .AllowAnyHeader();
@@ -48,6 +50,7 @@ namespace uConfig
                        .AllowAnyMethod()
                        .AllowAnyHeader();
 
+                // live AWS environment (web node to be able to communicate with nodes via load balancer)
                 builder.WithOrigins("http://ec2-13-40-50-201.eu-west-2.compute.amazonaws.com")
                        .AllowAnyMethod()
                        .AllowAnyHeader();
