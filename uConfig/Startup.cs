@@ -16,38 +16,6 @@ using System.Threading.Tasks;
 
 namespace uConfig
 {
-    public class ErrorWrappingMiddleware
-    {
-        private readonly RequestDelegate _next;
-
-        public ErrorWrappingMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
-
-        public async Task Invoke(HttpContext context)
-        {
-            try
-            {
-                Console.WriteLine("--> invoking next");
-                await _next.Invoke(context);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("--> caught exception");
-                context.Response.StatusCode = 500;
-
-                if (!context.Response.HasStarted)
-                {
-                    Console.WriteLine("--> writing response");
-                    context.Response.ContentType = "application/json";
-
-                    await context.Response.WriteAsync("{error: true}");
-                }
-            }
-        }
-    }
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -71,6 +39,18 @@ namespace uConfig
                 builder.WithOrigins("http://127.0.0.1:3000")
                        .AllowAnyMethod()
                        .AllowAnyHeader();
+
+                builder.WithOrigins("http://127.0.0.1:8080")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+
+                builder.WithOrigins("http://localhost:8080")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+
+                builder.WithOrigins("http://ec2-13-40-50-201.eu-west-2.compute.amazonaws.com")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
             }));
         }
 
@@ -92,8 +72,7 @@ namespace uConfig
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseMiddleware<ErrorWrappingMiddleware>();
-
+            
             app.UseExceptionHandler(c => c.Run(async context =>
             {
                 var exception = context.Features

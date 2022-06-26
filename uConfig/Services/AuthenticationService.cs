@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using MySqlConnector;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,10 +15,15 @@ namespace uConfig.Services
     public class AuthenticationService
     {
 		private string connectionString;
-		private static string JWT_SECRET = "egy vegkep betort allat hatan, egy vegkep betort allat lovagol";
+		private string JWT_SECRET = null;
+		private string demoUser = null;
+		private string demoJwtToken = null;
 
 		public AuthenticationService(string connectionString)
         {
+			this.JWT_SECRET = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Jwt")["Key"];
+			this.demoUser = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Demo")["Username"];
+			this.demoJwtToken = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Demo")["JwtToken"];
 			this.connectionString = connectionString;
 		}
 
@@ -39,6 +45,13 @@ namespace uConfig.Services
 
 		public async Task<LoggedInUser> Login(string username, string password)
         {
+			// log in with demo user and empty password: login endpoint will return a valid JWT token for the demo user,
+			// but with read-only access (eg. role is "demo")
+			if (!string.IsNullOrEmpty(username) && username.Equals(this.demoUser) && string.IsNullOrEmpty(password))
+            {
+				return await GetDemoUser();
+			}
+
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
 				await connection.OpenAsync();
@@ -58,6 +71,32 @@ namespace uConfig.Services
 
 					user.Token = GenerateToken(user.UserID, user.Email, user.ApiKey);
 
+					return user;
+				}
+
+				return null;
+			}
+		}
+
+		private async Task<LoggedInUser> GetDemoUser()
+        {
+			using (MySqlConnection connection = new MySqlConnection(connectionString))
+			{
+				await connection.OpenAsync();
+				using var command = new MySqlCommand("SELECT user_id, email, password, api_key, registered_at FROM uconfy_user WHERE email = ?username", connection);
+				command.Parameters.Add("?username", MySqlDbType.VarChar).Value = this.demoUser;
+
+				using var reader = await command.ExecuteReaderAsync();
+				while (await reader.ReadAsync())
+				{
+					LoggedInUser user = new LoggedInUser()
+					{
+						ApiKey = reader.GetString(reader.GetOrdinal("api_key")),
+						Email = reader.GetString(reader.GetOrdinal("email")),
+						UserID = reader.GetInt32(reader.GetOrdinal("user_id"))
+					};
+
+					user.Token = this.demoJwtToken;
 					return user;
 				}
 
@@ -106,6 +145,7 @@ namespace uConfig.Services
 					ValidateIssuer = false,
 					ValidateAudience = false
 				};
+
 				var claims = handler.ValidateToken(token, validations, out var tokenSecure);
 				return new LoggedInUser()
 				{

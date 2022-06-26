@@ -27,6 +27,21 @@ $ heroku container:push -a uconfy web # from uconfig/uconfig, where Dockerfile s
 $ heroku container:release -a uconfy web
 $ heroku logs --tail -a uconfy
 
+## Configuration for AWS
+- react-uconfy/app/services/UrlService.ts - appRoot is 'app2.html'
+- react-uconfy/app/services/UconfyBackendApi.ts - endpointUrl is 'http://uconfy-lb-1041773429.eu-west-2.elb.amazonaws.com/api'
+- run build on react-uconfy
+- content of build folder to be moved into wwwroot
+- rename index.html into app2.html
+- login $ aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 684109116329.dkr.ecr.eu-west-2.amazonaws.co
+- $ docker build -t uconfy-dotnet .
+- $ docker tag uconfy-dotnet:latest 684109116329.dkr.ecr.eu-west-2.amazonaws.com/uconfy-dotnet:latest
+- $ docker push 684109116329.dkr.ecr.eu-west-2.amazonaws.com/uconfy-dotnet:latest
+- login to AWS, navigate to EC2, log in with console
+- stop and remove existing container
+- $ docker pull 684109116329.dkr.ecr.eu-west-2.amazonaws.com/uconfy-dotnet:latest
+- $ docker run -d -p 80:80 --name uconfy10 684109116329.dkr.ecr.eu-west-2.amazonaws.com/uconfy-dotnet
+
 ## Configuration for localhost/heroku
 
 - appsettings.json references the correct DB

@@ -96,7 +96,7 @@ namespace uConfig.Controllers
                 return Unauthorized();
             }
 
-            if (devices.Find(registeredDevice => registeredDevice.Name.Equals(device.Name)) != null)
+            if (devices.Find(registeredDevice => registeredDevice.DeviceID != device.DeviceID && registeredDevice.Name.Equals(device.Name)) != null)
             {
                 return Conflict();
             }

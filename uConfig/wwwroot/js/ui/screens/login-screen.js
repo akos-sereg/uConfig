@@ -57,8 +57,14 @@ LoginScreen.prototype.autologin = function () {
 }
 
 LoginScreen.prototype.autologinDemoAccount = function () {
-    localStorage.setItem('jwt_token', document.app.getConfig().demoAccountJwt);
-    document.app.screens.loginScreen.autologin();
+    // log in with demo user and empty password: login endpoint will return a valid JWT token for the demo user,
+    // but with read-only access (eg. role is "demo")
+    document.app.services.backendService.login({ username: 'demouser@demo.de', password: '' }, function (loggedInUser) {
+        document.app.screens.loginScreen.onSuccessfulLogin(loggedInUser);
+    },
+    function () {
+        toastr["warning"]("Login failed with demo account");
+    });
 }
 
 LoginScreen.prototype.loginOrSignup = function () {
