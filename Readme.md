@@ -19,13 +19,14 @@ $ docker rm --force uconfig && docker build -t uconfig . && docker run -d -p 808
 ```
 
 ### Deploy to Heroku
-
+```
 $ heroku login
 $ heroku container:login
 $ docker build -t uconfig .
 $ heroku container:push -a uconfy web # from uconfig/uconfig, where Dockerfile sits
 $ heroku container:release -a uconfy web
 $ heroku logs --tail -a uconfy
+```
 
 ## Configuration for AWS
 - react-uconfy/app/services/UrlService.ts - appRoot is 'app2.html'
