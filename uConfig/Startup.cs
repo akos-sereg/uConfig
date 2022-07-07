@@ -13,6 +13,8 @@ using MySqlConnector;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace uConfig
 {
@@ -50,6 +52,15 @@ namespace uConfig
                        .AllowAnyMethod()
                        .AllowAnyHeader();
 
+                // live Heroku environment
+                builder.WithOrigins("http://uconfy.herokuapp.com")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+
+                builder.WithOrigins("https://uconfy.herokuapp.com")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+
                 // live AWS environment (web node to be able to communicate with nodes via load balancer)
                 builder.WithOrigins("http://ec2-13-40-50-201.eu-west-2.compute.amazonaws.com")
                        .AllowAnyMethod()
@@ -74,8 +85,9 @@ namespace uConfig
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
-            
+
             app.UseExceptionHandler(c => c.Run(async context =>
             {
                 var exception = context.Features
@@ -97,7 +109,5 @@ namespace uConfig
                 endpoints.MapControllers();
             });
         }
-
-        
     }
 }
