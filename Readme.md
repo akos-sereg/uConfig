@@ -18,7 +18,16 @@ $ docker rm --force uconfig
 $ docker rm --force uconfig && docker build -t uconfig . && docker run -d -p 8080:80 --name uconfig uconfig
 ```
 
-### Deploy to Heroku
+## Deploy to Heroku
+
+### Preparing frontend
+- in react app, app/services/Config.ts should expose awsConfig
+- run build on react app: npm run build
+- copy build/ folder's content under wwwroot/webapp
+- make sure that appsettings.json is referncing the correct mysql database
+
+
+### Deploy Heroku
 ```
 $ heroku login
 $ heroku container:login
@@ -28,12 +37,14 @@ $ heroku container:release -a uconfy web
 $ heroku logs --tail -a uconfy
 ```
 
-## Configuration for AWS
-- react-uconfy/app/services/UrlService.ts - appRoot is 'app2.html'
-- react-uconfy/app/services/UconfyBackendApi.ts - endpointUrl is 'http://uconfy-lb-1041773429.eu-west-2.elb.amazonaws.com/api'
+## Deploy to AWS
+
+### Preparing frontend
+- in react app, app/services/Config.ts should expose awsConfig
 - run build on react-uconfy
-- content of build folder to be moved into wwwroot
-- rename index.html into app2.html
+- content of build folder to be moved into wwwroot/webapp
+
+### Deploy AWS
 - login $ aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 684109116329.dkr.ecr.eu-west-2.amazonaws.co
 - $ docker build -t uconfy-dotnet .
 - $ docker tag uconfy-dotnet:latest 684109116329.dkr.ecr.eu-west-2.amazonaws.com/uconfy-dotnet:latest
@@ -46,7 +57,7 @@ $ heroku logs --tail -a uconfy
 ## Configuration for localhost/heroku
 
 - appsettings.json references the correct DB
-- js/app.js referencing the correct backend service
+- app/services/Config.ts should reference devConfig or localDockerConfig
 - air sensor device is referencing the correct URL (192.168.1.10:8080)
 
 ## TODOs
