@@ -21,7 +21,7 @@ $ docker rm --force uconfig && docker build -t uconfig . && docker run -d -p 808
 ## Deploy to Heroku
 
 ### Preparing frontend
-- in react app, app/services/Config.ts should expose awsConfig
+- in react app, app/services/Config.ts should expose herokuConfig
 - run build on react app: npm run build
 - copy build/ folder's content under wwwroot/webapp
 - make sure that appsettings.json is referncing the correct mysql database
