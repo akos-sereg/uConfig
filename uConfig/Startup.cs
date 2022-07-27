@@ -61,6 +61,15 @@ namespace uConfig
                        .AllowAnyMethod()
                        .AllowAnyHeader();
 
+                // live environment with domain
+                builder.WithOrigins("http://www.microconfy.com")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+
+                builder.WithOrigins("https://www.microconfy.com")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+
                 // live AWS environment (web node to be able to communicate with nodes via load balancer)
                 builder.WithOrigins("http://ec2-13-40-50-201.eu-west-2.compute.amazonaws.com")
                        .AllowAnyMethod()
