@@ -5,7 +5,6 @@ create table device (
     user_id int
 );
 
-
 create table device_config_item (
 	device_id varchar(40),
     config_key varchar(15),
@@ -32,6 +31,8 @@ create table uconfy_user (
     password varchar(64),
     api_key varchar(64),
     registered_at datetime
-)
+);
 
-ALTER TABLE uconfy_user MODIFY COLUMN user_id INT primary key auto_increment
+ALTER TABLE uconfy_user MODIFY COLUMN user_id INT primary key auto_increment;
+ALTER TABLE uconfy_user ADD COLUMN registration_code int;
+ALTER TABLE uconfy_user ADD COLUMN email_verified int;

@@ -60,18 +60,35 @@ namespace uConfig.Controllers
                 }
 
                 await _authenticationService.RegisterUser(signupRequest.Email, signupRequest.Password);
-                var user = await _authenticationService.Login(signupRequest.Email, signupRequest.Password);
-                if (user == null)
-                {
-                    return Unauthorized();
-                }
-
-                return Ok(user);
+                return Ok();
             } catch (UserAlreadyRegisteredException error)
             {
                 Console.WriteLine(error.Message);
                 return Conflict();
             } catch (Exception error)
+            {
+                Console.WriteLine(error.Message);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("verify-email")]
+        public async Task<IActionResult> CompleteSignup(CompleteSignupRequest completeSignupRequest)
+        {
+            Console.WriteLine("Complete Signup: '{0}', code: {1}", completeSignupRequest.Email, completeSignupRequest.RegistrationCode);
+            try
+            {
+                LoggedInUser user = await _authenticationService.CompleteSignup(completeSignupRequest.Email, completeSignupRequest.RegistrationCode);
+                if (user != null)
+                {
+                    return Ok(user);
+                } else
+                {
+                    return Unauthorized();
+                }
+            }
+            catch (Exception error)
             {
                 Console.WriteLine(error.Message);
                 return StatusCode(500);

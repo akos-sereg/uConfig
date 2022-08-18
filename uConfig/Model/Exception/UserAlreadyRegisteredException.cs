@@ -9,9 +9,12 @@ namespace uConfig.Model.Exception
     {
         public string Email { get; set; }
 
-        public UserAlreadyRegisteredException(string email, string message) : base(message)
+        public bool EmailVerified { get; set; }
+
+        public UserAlreadyRegisteredException(string email, bool emailVerified, string message) : base(message)
         {
             this.Email = email;
+            this.EmailVerified = emailVerified;
         }
     }
 }

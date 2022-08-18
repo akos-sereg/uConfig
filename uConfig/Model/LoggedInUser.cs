@@ -27,5 +27,11 @@ namespace uConfig.Model
         /// </summary>
         public string Role { get; set; }
 
+        /// <summary>
+        /// 6 digit registration code that is used for email confirmation
+        /// </summary>
+        public int RegistrationCode { get; set; }
+
+        public bool EmailVerified { get; set; }
 	}
 }
