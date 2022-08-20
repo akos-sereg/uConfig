@@ -62,8 +62,8 @@ $ heroku logs --tail -a uconfy
 
 ## TODOs
 
-- go live ("productizing") requirements
-  - documentation
+- general
+  x documentation
   - activity tab
   x rotate api key
   x device card
@@ -91,19 +91,18 @@ $ heroku logs --tail -a uconfy
 - nice to have
   - Install swagger
   - End to end tests for Web API
-  - rename all "uconfig" to "uconfy"
+  x rename all "uconfig" to "uconfy"
   - Console.WriteLine to logger
 - security
   x validate email
-  - force https
+  x force https
   x jwt token secret to be read from config
-  - mysql connection string to be read from environment variables
   x check what happens if jwt validation fails
   - logout: clear jwt from local storage, and invalidate on service
 - tech debt
   - remove old log items (eg. retain last 150 always for a device)
   - main site to be on angular
-  - web app to be on React
+  x web app to be on React
 
 ## Use cases
 
