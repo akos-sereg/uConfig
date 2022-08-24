@@ -36,14 +36,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> RegisterDevice(Device device)
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeCommand(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
-            }
-
-            if (loggedInUser.Role.Equals("demo"))
-            {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Register Device call from {email}, new device name: {deviceName}", loggedInUser.Email, device.Name);
@@ -72,14 +68,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> UpdateDevice(Guid deviceId, Device device)
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeCommand(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
-            }
-
-            if (loggedInUser.Role.Equals("demo"))
-            {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Update Device call from {email}, new device name: {deviceName}", loggedInUser.Email, device.Name);
@@ -112,14 +104,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> DeleteDevice(Guid deviceId)
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeCommand(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
-            }
-
-            if (loggedInUser.Role.Equals("demo"))
-            {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Delete Device call from {email}", loggedInUser.Email);
@@ -143,9 +131,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> GetDevices()
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeQuery(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Get Devices call from {email}", loggedInUser.Email);
@@ -167,14 +156,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> CreateOrUpdateDeviceConfig(Guid deviceId, DeviceConfig deviceConfig)
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeCommand(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
-            }
-
-            if (loggedInUser.Role.Equals("demo"))
-            {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Create/Update Device Config call from {email}", loggedInUser.Email);
@@ -205,9 +190,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> GetDeviceConfig(Guid deviceId)
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeQuery(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Get Device Config call from {email}", loggedInUser.Email);
@@ -262,9 +248,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> GetDeviceLogs(Guid deviceId)
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeQuery(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Get device logs call from device {device}", deviceId);
@@ -295,14 +282,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> StoreLogs(Guid deviceId, StoreLogsRequest checkinRequest)
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeCommand(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
-            }
-
-            if (loggedInUser.Role.Equals("demo"))
-            {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Device checkin call from device {device}", deviceId);
@@ -330,9 +313,10 @@ namespace uConfig.Controllers
         public async Task<IActionResult> GetDeviceActivity(Guid deviceId)
         {
             LoggedInUser loggedInUser = await _authenticationService.Authenticate(HttpContext.Request.Headers["Authorization"]);
-            if (loggedInUser == null)
+            IActionResult authorizationResult = AuthorizeQuery(loggedInUser);
+            if (authorizationResult != null)
             {
-                return Unauthorized();
+                return authorizationResult;
             }
 
             _logger.LogInformation("Get Device Config call from {email}", loggedInUser.Email);
@@ -360,5 +344,30 @@ namespace uConfig.Controllers
         }
 
         #endregion
+
+        private IActionResult AuthorizeCommand(LoggedInUser loggedInUser)
+        {
+            if (loggedInUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (loggedInUser.Role.Equals("demo"))
+            {
+                return Unauthorized();
+            }
+
+            return null;
+        }
+
+        private IActionResult AuthorizeQuery(LoggedInUser loggedInUser)
+        {
+            if (loggedInUser == null)
+            {
+                return Unauthorized();
+            }
+
+            return null;
+        }
     }
 }
